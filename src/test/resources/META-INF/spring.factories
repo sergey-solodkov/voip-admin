@@ -1,0 +1,3 @@
+org.springframework.test.context.ContextCustomizerFactory = com.github.\
+    sergeisolodkov.voipadmin.config.\
+    SqlTestContainersSpringContextCustomizerFactory
