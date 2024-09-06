@@ -1,0 +1,113 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-voip-account-heading"
+        data-cy="VoipAccountCreateUpdateHeading"
+        jhiTranslate="voipadminApp.voipAccount.home.createOrEditLabel"
+      >
+        Create or edit a Voip Account
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="voipadminApp.voipAccount.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_manual" jhiTranslate="voipadminApp.voipAccount.manual">Manual</label>
+          <input type="checkbox" class="form-check" name="manual" id="field_manual" data-cy="manual" formControlName="manual" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_username" jhiTranslate="voipadminApp.voipAccount.username">Username</label>
+          <input type="text" class="form-control" name="username" id="field_username" data-cy="username" formControlName="username" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_passwordHash" jhiTranslate="voipadminApp.voipAccount.passwordHash">Password Hash</label>
+          <input
+            type="text"
+            class="form-control"
+            name="passwordHash"
+            id="field_passwordHash"
+            data-cy="passwordHash"
+            formControlName="passwordHash"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_sipServer" jhiTranslate="voipadminApp.voipAccount.sipServer">Sip Server</label>
+          <input type="text" class="form-control" name="sipServer" id="field_sipServer" data-cy="sipServer" formControlName="sipServer" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_sipPort" jhiTranslate="voipadminApp.voipAccount.sipPort">Sip Port</label>
+          <input type="text" class="form-control" name="sipPort" id="field_sipPort" data-cy="sipPort" formControlName="sipPort" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_lineEnable" jhiTranslate="voipadminApp.voipAccount.lineEnable">Line Enable</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="lineEnable"
+            id="field_lineEnable"
+            data-cy="lineEnable"
+            formControlName="lineEnable"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_lineNumber" jhiTranslate="voipadminApp.voipAccount.lineNumber">Line Number</label>
+          <input
+            type="number"
+            class="form-control"
+            name="lineNumber"
+            id="field_lineNumber"
+            data-cy="lineNumber"
+            formControlName="lineNumber"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_device" jhiTranslate="voipadminApp.voipAccount.device">Device</label>
+          <select
+            class="form-control"
+            id="field_device"
+            data-cy="device"
+            name="device"
+            formControlName="device"
+            [compareWith]="compareDevice"
+          >
+            <option [ngValue]="null"></option>
+            @for (deviceOption of devicesSharedCollection; track $index) {
+              <option [ngValue]="deviceOption">{{ deviceOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

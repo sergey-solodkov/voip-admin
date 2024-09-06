@@ -1,0 +1,26 @@
+{
+  "annotations": {
+    "changelogDate": "20240906013410"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "value",
+      "fieldType": "String"
+    }
+  ],
+  "name": "OptionValue",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "setting",
+      "otherEntityRelationshipName": "selectedValues",
+      "relationshipName": "settings",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

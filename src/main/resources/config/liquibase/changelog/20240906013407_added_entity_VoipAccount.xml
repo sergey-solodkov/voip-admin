@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity VoipAccount.
+    -->
+    <changeSet id="20240906013407-1" author="jhipster">
+        <createTable tableName="voip_account">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="manual" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="password_hash" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sip_server" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sip_port" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="line_enable" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="line_number" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="device_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+</databaseChangeLog>

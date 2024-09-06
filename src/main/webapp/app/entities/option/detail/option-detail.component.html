@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (option(); as optionRef) {
+      <div>
+        <h2 data-cy="optionDetailsHeading"><span jhiTranslate="voipadminApp.option.detail.title">Option</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ optionRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.option.code">Code</span></dt>
+          <dd>
+            <span>{{ optionRef.code }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.option.descr">Descr</span></dt>
+          <dd>
+            <span>{{ optionRef.descr }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.option.valueType">Value Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'voipadminApp.OptionValueType.' + (optionRef.valueType ?? 'null')">{{
+              { null: '', TEXT: 'TEXT', SELECT: 'SELECT' }[optionRef.valueType ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.option.multiple">Multiple</span></dt>
+          <dd>
+            <span>{{ optionRef.multiple }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.option.vendors">Vendors</span></dt>
+          <dd>
+            @for (vendors of optionRef.vendors; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/vendor', vendors.id, 'view']">{{ vendors?.name }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.option.models">Models</span></dt>
+          <dd>
+            @for (models of optionRef.models; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/device-model', models.id, 'view']">{{ models?.name }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/option', optionRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

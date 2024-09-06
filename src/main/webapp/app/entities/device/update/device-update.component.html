@@ -1,0 +1,237 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-device-heading" data-cy="DeviceCreateUpdateHeading" jhiTranslate="voipadminApp.device.home.createOrEditLabel">
+        Create or edit a Device
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="voipadminApp.device.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let macRef = editForm.get('mac')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_mac" jhiTranslate="voipadminApp.device.mac">Mac</label>
+          <input type="text" class="form-control" name="mac" id="field_mac" data-cy="mac" formControlName="mac" />
+          @if (macRef.invalid && (macRef.dirty || macRef.touched)) {
+            <div>
+              @if (editForm.get('mac')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_inventoryId" jhiTranslate="voipadminApp.device.inventoryId">Inventory Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="inventoryId"
+            id="field_inventoryId"
+            data-cy="inventoryId"
+            formControlName="inventoryId"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_location" jhiTranslate="voipadminApp.device.location">Location</label>
+          <input type="text" class="form-control" name="location" id="field_location" data-cy="location" formControlName="location" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hostname" jhiTranslate="voipadminApp.device.hostname">Hostname</label>
+          <input type="text" class="form-control" name="hostname" id="field_hostname" data-cy="hostname" formControlName="hostname" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_webAccessLogin" jhiTranslate="voipadminApp.device.webAccessLogin">Web Access Login</label>
+          <input
+            type="text"
+            class="form-control"
+            name="webAccessLogin"
+            id="field_webAccessLogin"
+            data-cy="webAccessLogin"
+            formControlName="webAccessLogin"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_webAccessPasswordHash" jhiTranslate="voipadminApp.device.webAccessPasswordHash"
+            >Web Access Password Hash</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="webAccessPasswordHash"
+            id="field_webAccessPasswordHash"
+            data-cy="webAccessPasswordHash"
+            formControlName="webAccessPasswordHash"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_dhcpEnabled" jhiTranslate="voipadminApp.device.dhcpEnabled">Dhcp Enabled</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="dhcpEnabled"
+            id="field_dhcpEnabled"
+            data-cy="dhcpEnabled"
+            formControlName="dhcpEnabled"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_ipAddress" jhiTranslate="voipadminApp.device.ipAddress">Ip Address</label>
+          <input type="text" class="form-control" name="ipAddress" id="field_ipAddress" data-cy="ipAddress" formControlName="ipAddress" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_subnetMask" jhiTranslate="voipadminApp.device.subnetMask">Subnet Mask</label>
+          <input
+            type="text"
+            class="form-control"
+            name="subnetMask"
+            id="field_subnetMask"
+            data-cy="subnetMask"
+            formControlName="subnetMask"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_defaultGw" jhiTranslate="voipadminApp.device.defaultGw">Default Gw</label>
+          <input type="text" class="form-control" name="defaultGw" id="field_defaultGw" data-cy="defaultGw" formControlName="defaultGw" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_dns1" jhiTranslate="voipadminApp.device.dns1">Dns 1</label>
+          <input type="text" class="form-control" name="dns1" id="field_dns1" data-cy="dns1" formControlName="dns1" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_dns2" jhiTranslate="voipadminApp.device.dns2">Dns 2</label>
+          <input type="text" class="form-control" name="dns2" id="field_dns2" data-cy="dns2" formControlName="dns2" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_provisioningMode" jhiTranslate="voipadminApp.device.provisioningMode"
+            >Provisioning Mode</label
+          >
+          <select
+            class="form-control"
+            name="provisioningMode"
+            formControlName="provisioningMode"
+            id="field_provisioningMode"
+            data-cy="provisioningMode"
+          >
+            <option [ngValue]="null">{{ 'voipadminApp.ProvisioningMode.null' | translate }}</option>
+            @for (provisioningMode of provisioningModeValues; track $index) {
+              <option [value]="provisioningMode">{{ 'voipadminApp.ProvisioningMode.' + provisioningMode | translate }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_provisioningUrl" jhiTranslate="voipadminApp.device.provisioningUrl">Provisioning Url</label>
+          <input
+            type="text"
+            class="form-control"
+            name="provisioningUrl"
+            id="field_provisioningUrl"
+            data-cy="provisioningUrl"
+            formControlName="provisioningUrl"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_ntp" jhiTranslate="voipadminApp.device.ntp">Ntp</label>
+          <input type="text" class="form-control" name="ntp" id="field_ntp" data-cy="ntp" formControlName="ntp" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_configPath" jhiTranslate="voipadminApp.device.configPath">Config Path</label>
+          <input
+            type="text"
+            class="form-control"
+            name="configPath"
+            id="field_configPath"
+            data-cy="configPath"
+            formControlName="configPath"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_notes" jhiTranslate="voipadminApp.device.notes">Notes</label>
+          <input type="text" class="form-control" name="notes" id="field_notes" data-cy="notes" formControlName="notes" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_model" jhiTranslate="voipadminApp.device.model">Model</label>
+          <select
+            class="form-control"
+            id="field_model"
+            data-cy="model"
+            name="model"
+            formControlName="model"
+            [compareWith]="compareDeviceModel"
+          >
+            <option [ngValue]="null"></option>
+            @for (deviceModelOption of deviceModelsSharedCollection; track $index) {
+              <option [ngValue]="deviceModelOption">{{ deviceModelOption.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_owner" jhiTranslate="voipadminApp.device.owner">Owner</label>
+          <select class="form-control" id="field_owner" data-cy="owner" name="owner" formControlName="owner" [compareWith]="compareOwner">
+            <option [ngValue]="null"></option>
+            @for (ownerOption of ownersSharedCollection; track $index) {
+              <option [ngValue]="ownerOption">{{ ownerOption.lastName }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_parent" jhiTranslate="voipadminApp.device.parent">Parent</label>
+          <select
+            class="form-control"
+            id="field_parent"
+            data-cy="parent"
+            name="parent"
+            formControlName="parent"
+            [compareWith]="compareDevice"
+          >
+            <option [ngValue]="null"></option>
+            @for (deviceOption of devicesSharedCollection; track $index) {
+              <option [ngValue]="deviceOption">{{ deviceOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

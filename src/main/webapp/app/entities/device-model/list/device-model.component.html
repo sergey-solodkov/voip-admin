@@ -1,0 +1,179 @@
+<div>
+  <h2 id="page-heading" data-cy="DeviceModelHeading">
+    <span jhiTranslate="voipadminApp.deviceModel.home.title">Device Models</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="voipadminApp.deviceModel.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-device-model"
+        [routerLink]="['/device-model/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="voipadminApp.deviceModel.home.createLabel">Create a new Device Model</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (deviceModels?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="voipadminApp.deviceModel.home.notFound">No Device Models found</span>
+    </div>
+  }
+
+  @if (deviceModels && deviceModels.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.deviceModel.name">Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="configurable">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.deviceModel.configurable">Configurable</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="linesAmount">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.deviceModel.linesAmount">Lines Amount</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="configTemplatePath">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.deviceModel.configTemplatePath">Config Template Path</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="firmwareFilePath">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.deviceModel.firmwareFilePath">Firmware File Path</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deviceType">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.deviceModel.deviceType">Device Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="otherDeviceType.id">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.deviceModel.otherDeviceType">Other Device Type</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="vendor.name">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.deviceModel.vendor">Vendor</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (deviceModel of deviceModels; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/device-model', deviceModel.id, 'view']">{{ deviceModel.id }}</a>
+              </td>
+              <td>{{ deviceModel.name }}</td>
+              <td>{{ deviceModel.configurable }}</td>
+              <td>{{ deviceModel.linesAmount }}</td>
+              <td>{{ deviceModel.configTemplatePath }}</td>
+              <td>{{ deviceModel.firmwareFilePath }}</td>
+              <td [jhiTranslate]="'voipadminApp.DeviceType.' + (deviceModel.deviceType ?? 'null')">
+                {{
+                  { null: '', IPPHONE: 'IPPHONE', IPGATEWAY: 'IPGATEWAY', HANDSET: 'HANDSET', HEADSET: 'HEADSET', OTHER: 'OTHER' }[
+                    deviceModel.deviceType ?? 'null'
+                  ]
+                }}
+              </td>
+              <td>
+                @if (deviceModel.otherDeviceType) {
+                  <div>
+                    <a [routerLink]="['/other-device-type', deviceModel.otherDeviceType.id, 'view']">{{
+                      deviceModel.otherDeviceType.id
+                    }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (deviceModel.vendor) {
+                  <div>
+                    <a [routerLink]="['/vendor', deviceModel.vendor.id, 'view']">{{ deviceModel.vendor.name }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/device-model', deviceModel.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/device-model', deviceModel.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(deviceModel)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (deviceModels && deviceModels.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

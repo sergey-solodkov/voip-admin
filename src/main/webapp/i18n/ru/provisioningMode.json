@@ -1,0 +1,11 @@
+{
+  "voipadminApp": {
+    "ProvisioningMode": {
+      "null": "",
+      "FTP": "FTP",
+      "TFTP": "TFTP",
+      "HTTP": "HTTP",
+      "HTTPS": "HTTPS"
+    }
+  }
+}

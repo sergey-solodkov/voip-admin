@@ -1,0 +1,54 @@
+{
+  "annotations": {
+    "changelogDate": "20240906013409"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "descr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "valueType",
+      "fieldType": "OptionValueType",
+      "fieldValues": "TEXT,SELECT"
+    },
+    {
+      "fieldName": "multiple",
+      "fieldType": "Boolean"
+    }
+  ],
+  "name": "Option",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "optionValue",
+      "relationshipName": "possibleValues",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "vendor",
+      "otherEntityRelationshipName": "options",
+      "relationshipName": "vendors",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "deviceModel",
+      "otherEntityRelationshipName": "options",
+      "relationshipName": "models",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

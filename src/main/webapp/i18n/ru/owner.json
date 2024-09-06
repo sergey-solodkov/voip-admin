@@ -1,0 +1,30 @@
+{
+  "voipadminApp": {
+    "owner": {
+      "home": {
+        "title": "Owners",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Owner",
+        "createOrEditLabel": "Создать или отредактировать Owner",
+        "notFound": "Owners не найдено"
+      },
+      "created": "Новый Owner создан с идентификатором {{ param }}",
+      "updated": "Owner обновлен с идентификатором {{ param }}",
+      "deleted": "Owner удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Owner {{ id }}?"
+      },
+      "detail": {
+        "title": "Owner"
+      },
+      "id": "ID",
+      "code": "Code",
+      "firstName": "First Name",
+      "secondName": "Second Name",
+      "lastName": "Last Name",
+      "position": "Position",
+      "location": "Location",
+      "department": "Department"
+    }
+  }
+}

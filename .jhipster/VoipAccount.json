@@ -1,0 +1,42 @@
+{
+  "annotations": {
+    "changelogDate": "20240906013407"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "manual",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "passwordHash",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sipServer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sipPort",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lineEnable",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "lineNumber",
+      "fieldType": "Integer"
+    }
+  ],
+  "name": "VoipAccount",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

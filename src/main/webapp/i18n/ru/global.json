@@ -8,7 +8,16 @@
       "entities": {
         "main": "Сущности",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
-        "adminAuthority": "Authority"
+        "device": "Device",
+        "deviceModel": "Device Model",
+        "otherDeviceType": "Other Device Type",
+        "owner": "Owner",
+        "department": "Department",
+        "voipAccount": "Voip Account",
+        "setting": "Setting",
+        "option": "Option",
+        "optionValue": "Option Value",
+        "vendor": "Vendor"
       },
       "account": {
         "main": "Профиль",

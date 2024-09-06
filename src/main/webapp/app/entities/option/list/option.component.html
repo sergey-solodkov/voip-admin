@@ -1,0 +1,131 @@
+<div>
+  <h2 id="page-heading" data-cy="OptionHeading">
+    <span jhiTranslate="voipadminApp.option.home.title">Options</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="voipadminApp.option.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-option"
+        [routerLink]="['/option/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="voipadminApp.option.home.createLabel">Create a new Option</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (options?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="voipadminApp.option.home.notFound">No Options found</span>
+    </div>
+  }
+
+  @if (options && options.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="code">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.option.code">Code</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="descr">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.option.descr">Descr</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="valueType">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.option.valueType">Value Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="multiple">
+              <div class="d-flex">
+                <span jhiTranslate="voipadminApp.option.multiple">Multiple</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (option of options; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/option', option.id, 'view']">{{ option.id }}</a>
+              </td>
+              <td>{{ option.code }}</td>
+              <td>{{ option.descr }}</td>
+              <td [jhiTranslate]="'voipadminApp.OptionValueType.' + (option.valueType ?? 'null')">
+                {{ { null: '', TEXT: 'TEXT', SELECT: 'SELECT' }[option.valueType ?? 'null'] }}
+              </td>
+              <td>{{ option.multiple }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/option', option.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/option', option.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(option)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (options && options.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

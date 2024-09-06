@@ -1,0 +1,51 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (optionValue(); as optionValueRef) {
+      <div>
+        <h2 data-cy="optionValueDetailsHeading"><span jhiTranslate="voipadminApp.optionValue.detail.title">Option Value</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ optionValueRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.optionValue.value">Value</span></dt>
+          <dd>
+            <span>{{ optionValueRef.value }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.optionValue.settings">Settings</span></dt>
+          <dd>
+            @for (settings of optionValueRef.settings; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/setting', settings.id, 'view']">{{ settings?.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.optionValue.option">Option</span></dt>
+          <dd>
+            @if (optionValue()!.option) {
+              <div>
+                <a [routerLink]="['/option', optionValue()!.option?.id, 'view']">{{ optionValueRef.option?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/option-value', optionValueRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

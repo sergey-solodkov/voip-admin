@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity Device.
+    -->
+    <changeSet id="20240906013402-1" author="jhipster">
+        <createTable tableName="device">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="mac" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="inventory_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="location" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="hostname" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="web_access_login" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="web_access_password_hash" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="dhcp_enabled" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="ip_address" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="subnet_mask" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="default_gw" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="dns_1" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="dns_2" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="provisioning_mode" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="provisioning_url" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="ntp" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="config_path" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="notes" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="model_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="owner_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="parent_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+</databaseChangeLog>

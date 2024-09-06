@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (owner(); as ownerRef) {
+      <div>
+        <h2 data-cy="ownerDetailsHeading"><span jhiTranslate="voipadminApp.owner.detail.title">Owner</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ ownerRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.owner.code">Code</span></dt>
+          <dd>
+            <span>{{ ownerRef.code }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.owner.firstName">First Name</span></dt>
+          <dd>
+            <span>{{ ownerRef.firstName }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.owner.secondName">Second Name</span></dt>
+          <dd>
+            <span>{{ ownerRef.secondName }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.owner.lastName">Last Name</span></dt>
+          <dd>
+            <span>{{ ownerRef.lastName }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.owner.position">Position</span></dt>
+          <dd>
+            <span>{{ ownerRef.position }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.owner.location">Location</span></dt>
+          <dd>
+            <span>{{ ownerRef.location }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.owner.department">Department</span></dt>
+          <dd>
+            @if (owner()!.department) {
+              <div>
+                <a [routerLink]="['/department', owner()!.department?.id, 'view']">{{ ownerRef.department?.name }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/owner', ownerRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

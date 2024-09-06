@@ -1,0 +1,124 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (device(); as deviceRef) {
+      <div>
+        <h2 data-cy="deviceDetailsHeading"><span jhiTranslate="voipadminApp.device.detail.title">Device</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ deviceRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.mac">Mac</span></dt>
+          <dd>
+            <span>{{ deviceRef.mac }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.inventoryId">Inventory Id</span></dt>
+          <dd>
+            <span>{{ deviceRef.inventoryId }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.location">Location</span></dt>
+          <dd>
+            <span>{{ deviceRef.location }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.hostname">Hostname</span></dt>
+          <dd>
+            <span>{{ deviceRef.hostname }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.webAccessLogin">Web Access Login</span></dt>
+          <dd>
+            <span>{{ deviceRef.webAccessLogin }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.webAccessPasswordHash">Web Access Password Hash</span></dt>
+          <dd>
+            <span>{{ deviceRef.webAccessPasswordHash }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.dhcpEnabled">Dhcp Enabled</span></dt>
+          <dd>
+            <span>{{ deviceRef.dhcpEnabled }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.ipAddress">Ip Address</span></dt>
+          <dd>
+            <span>{{ deviceRef.ipAddress }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.subnetMask">Subnet Mask</span></dt>
+          <dd>
+            <span>{{ deviceRef.subnetMask }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.defaultGw">Default Gw</span></dt>
+          <dd>
+            <span>{{ deviceRef.defaultGw }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.dns1">Dns 1</span></dt>
+          <dd>
+            <span>{{ deviceRef.dns1 }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.dns2">Dns 2</span></dt>
+          <dd>
+            <span>{{ deviceRef.dns2 }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.provisioningMode">Provisioning Mode</span></dt>
+          <dd>
+            <span [jhiTranslate]="'voipadminApp.ProvisioningMode.' + (deviceRef.provisioningMode ?? 'null')">{{
+              { null: '', FTP: 'FTP', TFTP: 'TFTP', HTTP: 'HTTP', HTTPS: 'HTTPS' }[deviceRef.provisioningMode ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.provisioningUrl">Provisioning Url</span></dt>
+          <dd>
+            <span>{{ deviceRef.provisioningUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.ntp">Ntp</span></dt>
+          <dd>
+            <span>{{ deviceRef.ntp }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.configPath">Config Path</span></dt>
+          <dd>
+            <span>{{ deviceRef.configPath }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.notes">Notes</span></dt>
+          <dd>
+            <span>{{ deviceRef.notes }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.model">Model</span></dt>
+          <dd>
+            @if (device()!.model) {
+              <div>
+                <a [routerLink]="['/device-model', device()!.model?.id, 'view']">{{ deviceRef.model?.name }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.owner">Owner</span></dt>
+          <dd>
+            @if (device()!.owner) {
+              <div>
+                <a [routerLink]="['/owner', device()!.owner?.id, 'view']">{{ deviceRef.owner?.lastName }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.device.parent">Parent</span></dt>
+          <dd>
+            @if (device()!.parent) {
+              <div>
+                <a [routerLink]="['/device', device()!.parent?.id, 'view']">{{ deviceRef.parent?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/device', deviceRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (deviceModel(); as deviceModelRef) {
+      <div>
+        <h2 data-cy="deviceModelDetailsHeading"><span jhiTranslate="voipadminApp.deviceModel.detail.title">Device Model</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ deviceModelRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.deviceModel.name">Name</span></dt>
+          <dd>
+            <span>{{ deviceModelRef.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.deviceModel.configurable">Configurable</span></dt>
+          <dd>
+            <span>{{ deviceModelRef.configurable }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.deviceModel.linesAmount">Lines Amount</span></dt>
+          <dd>
+            <span>{{ deviceModelRef.linesAmount }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.deviceModel.configTemplatePath">Config Template Path</span></dt>
+          <dd>
+            <span>{{ deviceModelRef.configTemplatePath }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.deviceModel.firmwareFilePath">Firmware File Path</span></dt>
+          <dd>
+            <span>{{ deviceModelRef.firmwareFilePath }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.deviceModel.deviceType">Device Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'voipadminApp.DeviceType.' + (deviceModelRef.deviceType ?? 'null')">{{
+              { null: '', IPPHONE: 'IPPHONE', IPGATEWAY: 'IPGATEWAY', HANDSET: 'HANDSET', HEADSET: 'HEADSET', OTHER: 'OTHER' }[
+                deviceModelRef.deviceType ?? 'null'
+              ]
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.deviceModel.otherDeviceType">Other Device Type</span></dt>
+          <dd>
+            @if (deviceModel()!.otherDeviceType) {
+              <div>
+                <a [routerLink]="['/other-device-type', deviceModel()!.otherDeviceType?.id, 'view']">{{
+                  deviceModelRef.otherDeviceType?.id
+                }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.deviceModel.vendor">Vendor</span></dt>
+          <dd>
+            @if (deviceModel()!.vendor) {
+              <div>
+                <a [routerLink]="['/vendor', deviceModel()!.vendor?.id, 'view']">{{ deviceModelRef.vendor?.name }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.deviceModel.options">Options</span></dt>
+          <dd>
+            @for (options of deviceModelRef.options; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/option', options.id, 'view']">{{ options?.code }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/device-model', deviceModelRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

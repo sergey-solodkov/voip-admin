@@ -1,0 +1,59 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (setting(); as settingRef) {
+      <div>
+        <h2 data-cy="settingDetailsHeading"><span jhiTranslate="voipadminApp.setting.detail.title">Setting</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ settingRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.setting.textValue">Text Value</span></dt>
+          <dd>
+            <span>{{ settingRef.textValue }}</span>
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.setting.option">Option</span></dt>
+          <dd>
+            @if (setting()!.option) {
+              <div>
+                <a [routerLink]="['/option', setting()!.option?.id, 'view']">{{ settingRef.option?.code }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.setting.selectedValues">Selected Values</span></dt>
+          <dd>
+            @for (selectedValues of settingRef.selectedValues; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/option-value', selectedValues.id, 'view']">{{ selectedValues?.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+          <dt><span jhiTranslate="voipadminApp.setting.device">Device</span></dt>
+          <dd>
+            @if (setting()!.device) {
+              <div>
+                <a [routerLink]="['/device', setting()!.device?.id, 'view']">{{ settingRef.device?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/setting', settingRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

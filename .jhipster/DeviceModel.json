@@ -1,0 +1,63 @@
+{
+  "annotations": {
+    "changelogDate": "20240906013403"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "configurable",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "linesAmount",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "configTemplatePath",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "firmwareFilePath",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deviceType",
+      "fieldType": "DeviceType",
+      "fieldValues": "IPPHONE,IPGATEWAY,HANDSET,HEADSET,OTHER"
+    }
+  ],
+  "name": "DeviceModel",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "otherDeviceType",
+      "relationshipName": "otherDeviceType",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "vendor",
+      "relationshipName": "vendor",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "option",
+      "otherEntityRelationshipName": "models",
+      "relationshipName": "options",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

@@ -1,0 +1,126 @@
+{
+  "annotations": {
+    "changelogDate": "20240906013402"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "mac",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "inventoryId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "location",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hostname",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "webAccessLogin",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "webAccessPasswordHash",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dhcpEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "ipAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "subnetMask",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "defaultGw",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dns1",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dns2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "provisioningMode",
+      "fieldType": "ProvisioningMode",
+      "fieldValues": "FTP,TFTP,HTTP,HTTPS"
+    },
+    {
+      "fieldName": "provisioningUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ntp",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "configPath",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Device",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "setting",
+      "relationshipName": "settings",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "username",
+      "otherEntityName": "voipAccount",
+      "relationshipName": "voipAccounts",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "device",
+      "otherEntityRelationshipName": "parent",
+      "relationshipName": "children",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "deviceModel",
+      "relationshipName": "model",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "lastName",
+      "otherEntityName": "owner",
+      "relationshipName": "owner",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "device",
+      "otherEntityRelationshipName": "children",
+      "relationshipName": "parent",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

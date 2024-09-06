@@ -1,0 +1,33 @@
+{
+  "annotations": {
+    "changelogDate": "20240906013408"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "textValue",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Setting",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "option",
+      "relationshipName": "option",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "optionValue",
+      "otherEntityRelationshipName": "settings",
+      "relationshipName": "selectedValues",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
