@@ -93,37 +93,39 @@
                 />
               </div>
 
-              <div class="mb-3">
-                <label class="form-label" for="field_ipAddress" jhiTranslate="voipadminApp.device.ipAddress">Ip Address</label>
-                <input type="text" class="form-control" name="ipAddress" id="field_ipAddress" data-cy="ipAddress" formControlName="ipAddress" />
-              </div>
+              @if (editForm.controls.dhcpEnabled.value == false) {
+                <div class="mb-3">
+                  <label class="form-label" for="field_ipAddress" jhiTranslate="voipadminApp.device.ipAddress">Ip Address</label>
+                  <input type="text" class="form-control" name="ipAddress" id="field_ipAddress" data-cy="ipAddress" formControlName="ipAddress" />
+                </div>
 
-              <div class="mb-3">
-                <label class="form-label" for="field_subnetMask" jhiTranslate="voipadminApp.device.subnetMask">Subnet Mask</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="subnetMask"
-                  id="field_subnetMask"
-                  data-cy="subnetMask"
-                  formControlName="subnetMask"
-                />
-              </div>
+                <div class="mb-3">
+                  <label class="form-label" for="field_subnetMask" jhiTranslate="voipadminApp.device.subnetMask">Subnet Mask</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="subnetMask"
+                    id="field_subnetMask"
+                    data-cy="subnetMask"
+                    formControlName="subnetMask"
+                  />
+                </div>
 
-              <div class="mb-3">
-                <label class="form-label" for="field_defaultGw" jhiTranslate="voipadminApp.device.defaultGw">Default Gw</label>
-                <input type="text" class="form-control" name="defaultGw" id="field_defaultGw" data-cy="defaultGw" formControlName="defaultGw" />
-              </div>
+                <div class="mb-3">
+                  <label class="form-label" for="field_defaultGw" jhiTranslate="voipadminApp.device.defaultGw">Default Gw</label>
+                  <input type="text" class="form-control" name="defaultGw" id="field_defaultGw" data-cy="defaultGw" formControlName="defaultGw" />
+                </div>
 
-              <div class="mb-3">
-                <label class="form-label" for="field_dns1" jhiTranslate="voipadminApp.device.dns1">Dns 1</label>
-                <input type="text" class="form-control" name="dns1" id="field_dns1" data-cy="dns1" formControlName="dns1" />
-              </div>
+                <div class="mb-3">
+                  <label class="form-label" for="field_dns1" jhiTranslate="voipadminApp.device.dns1">Dns 1</label>
+                  <input type="text" class="form-control" name="dns1" id="field_dns1" data-cy="dns1" formControlName="dns1" />
+                </div>
 
-              <div class="mb-3">
-                <label class="form-label" for="field_dns2" jhiTranslate="voipadminApp.device.dns2">Dns 2</label>
-                <input type="text" class="form-control" name="dns2" id="field_dns2" data-cy="dns2" formControlName="dns2" />
-              </div>
+                <div class="mb-3">
+                  <label class="form-label" for="field_dns2" jhiTranslate="voipadminApp.device.dns2">Dns 2</label>
+                  <input type="text" class="form-control" name="dns2" id="field_dns2" data-cy="dns2" formControlName="dns2" />
+                </div>
+              }
 
               <div class="mb-3">
                 <label class="form-label" for="field_provisioningMode" jhiTranslate="voipadminApp.device.provisioningMode"
@@ -189,7 +191,7 @@
                 >
                   <option [ngValue]="null"></option>
                   @for (deviceModelOption of deviceModelsSharedCollection; track $index) {
-                  <option [ngValue]="deviceModelOption">{{ deviceModelOption.name }}</option>
+                  <option [ngValue]="deviceModelOption">{{ deviceModelOption.vendor?.name}} {{deviceModelOption.name }}</option>
                   }
                 </select>
               </div>

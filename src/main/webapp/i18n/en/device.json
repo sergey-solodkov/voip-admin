@@ -22,6 +22,9 @@
         "line": "Line settings",
         "additional": "Additional settings"
       },
+      "validation": {
+        "macPattern": "MAC-address should be in 'AA-BB-CC-DD-EE-FF' or 'AA:BB:CC:DD:EE:FF' format"
+      },
       "id": "ID",
       "mac": "Mac",
       "inventoryId": "Inventory Id",

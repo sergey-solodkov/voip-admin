@@ -58,7 +58,7 @@ export class DeviceFormService {
         },
       ),
       mac: new FormControl(deviceRawValue.mac, {
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.pattern('^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')],
       }),
       inventoryId: new FormControl(deviceRawValue.inventoryId),
       location: new FormControl(deviceRawValue.location),
