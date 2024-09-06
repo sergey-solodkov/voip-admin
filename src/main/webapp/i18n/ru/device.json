@@ -17,6 +17,11 @@
       "detail": {
         "title": "Device"
       },
+      "tabs": {
+        "general": "Основные настройки",
+        "line": "Настройки линий",
+        "additional": "Дополнительные настройки"
+      },
       "id": "ID",
       "mac": "Mac",
       "inventoryId": "Inventory Id",
