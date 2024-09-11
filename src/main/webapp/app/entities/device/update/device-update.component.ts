@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import SharedModule from 'app/shared/shared.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IDeviceModel } from 'app/entities/device-model/device-model.model';
 import { DeviceModelService } from 'app/entities/device-model/service/device-model.service';
@@ -15,6 +15,10 @@ import { ProvisioningMode } from 'app/entities/enumerations/provisioning-mode.mo
 import { DeviceService } from '../service/device.service';
 import { IDevice } from '../device.model';
 import { DeviceFormGroup, DeviceFormService } from './device-form.service';
+import { IVoipAccount } from 'app/entities/voip-account/voip-account.model';
+import { VoipAccountFormService } from 'app/entities/voip-account/update/voip-account-form.service';
+import { DeviceModelChangeDialogComponent } from './device-model-change-dialog/device-model-change-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   standalone: true,
@@ -26,6 +30,7 @@ export class DeviceUpdateComponent implements OnInit {
   isSaving = false;
   device: IDevice | null = null;
   provisioningModeValues = Object.keys(ProvisioningMode);
+  oldModelValue: Pick<IDeviceModel, 'id' | 'name'> | null | undefined;
 
   devicesSharedCollection: IDevice[] = [];
   deviceModelsSharedCollection: IDeviceModel[] = [];
@@ -36,6 +41,8 @@ export class DeviceUpdateComponent implements OnInit {
   protected deviceModelService = inject(DeviceModelService);
   protected ownerService = inject(OwnerService);
   protected activatedRoute = inject(ActivatedRoute);
+  protected voipAccountFormService = inject(VoipAccountFormService);
+  protected modalService = inject(NgbModal);
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: DeviceFormGroup = this.deviceFormService.createDeviceFormGroup();
@@ -46,11 +53,16 @@ export class DeviceUpdateComponent implements OnInit {
 
   compareOwner = (o1: IOwner | null, o2: IOwner | null): boolean => this.ownerService.compareOwner(o1, o2);
 
+  get voipAccounts(): FormArray {
+    return this.editForm.get('voipAccounts') as FormArray;
+  }
+
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ device }) => {
       this.device = device;
       if (device) {
         this.updateForm(device);
+        this.oldModelValue = device.model;
       }
 
       this.loadRelationshipsOptions();
@@ -69,6 +81,55 @@ export class DeviceUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.deviceService.create(device));
     }
+  }
+
+  onDeviceModelChange(): void {
+    if (this.oldModelValue) {
+      const modalRef = this.modalService.open(DeviceModelChangeDialogComponent, { size: 'lg', backdrop: 'static' });
+      modalRef.componentInstance.oldValue = this.oldModelValue;
+      modalRef.componentInstance.newValue = this.editForm.get('model')?.value;
+      modalRef.closed.subscribe(result => {
+        this.editForm.patchValue({
+          model: result,
+        });
+        if (result !== this.oldModelValue) {
+          this.voipAccounts.clear();
+          this.initVoipAccounts();
+        }
+        this.oldModelValue = result;
+      });
+    } else {
+      this.oldModelValue = this.editForm.get('model')?.value;
+      this.initVoipAccounts();
+    }
+  }
+
+  initVoipAccounts(voipAccounts?: IVoipAccount[]): void {
+    if (!this.editForm.get('model')?.value) {
+      this.voipAccounts.clear();
+      return;
+    }
+
+    const deviceModel = this.deviceModelsSharedCollection.find(model => model.id === this.editForm.get('model')?.value?.id);
+    if (deviceModel?.configurable && deviceModel.linesAmount! > 0) {
+      if (voipAccounts && voipAccounts.length > 0) {
+        voipAccounts
+          .sort((account1, account2) => account1.lineNumber! - account2.lineNumber!)
+          .forEach(account => this.addVoipAccount(account));
+      } else {
+        for (let i = 0; i < deviceModel.linesAmount!; i++) {
+          this.addVoipAccount();
+        }
+      }
+    }
+  }
+
+  addVoipAccount(voipAccount?: IVoipAccount): void {
+    this.voipAccounts.push(this.voipAccountFormService.createVoipAccountFormGroup(voipAccount));
+  }
+
+  resetVoipAccount(index: number): void {
+    this.voipAccounts.get(index.toString())?.reset();
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IDevice>>): void {
@@ -100,6 +161,9 @@ export class DeviceUpdateComponent implements OnInit {
       device.model,
     );
     this.ownersSharedCollection = this.ownerService.addOwnerToCollectionIfMissing<IOwner>(this.ownersSharedCollection, device.owner);
+    if (device.model) {
+      this.initVoipAccounts(device.voipAccounts!);
+    }
   }
 
   protected loadRelationshipsOptions(): void {

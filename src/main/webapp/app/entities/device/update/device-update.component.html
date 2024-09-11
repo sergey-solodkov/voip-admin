@@ -20,6 +20,24 @@
               </div>
               }
 
+              <div class="mb-3">
+                <label class="form-label" for="field_model" jhiTranslate="voipadminApp.device.model">Model</label>
+                <select
+                  class="form-control"
+                  id="field_model"
+                  data-cy="model"
+                  name="model"
+                  formControlName="model"
+                  [compareWith]="compareDeviceModel"
+                  (change)="onDeviceModelChange()"
+                >
+                  <option [ngValue]="null"></option>
+                  @for (deviceModelOption of deviceModelsSharedCollection; track $index) {
+                  <option [ngValue]="deviceModelOption">{{ deviceModelOption.vendor?.name}} {{deviceModelOption.name }}</option>
+                  }
+                </select>
+              </div>
+
               @let macRef = editForm.get('mac')!;
               <div class="mb-3">
                 <label class="form-label" for="field_mac" jhiTranslate="voipadminApp.device.mac">Mac</label>
@@ -28,6 +46,11 @@
                 <div>
                   @if (editForm.get('mac')?.errors?.required) {
                   <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                  }
+                  @if (editForm.get('mac')?.errors?.pattern) {
+                  <small class="form-text text-danger" jhiTranslate="voipadminApp.device.validation.macPattern">
+                    Wrong MAC-address format
+                  </small>
                   }
                 </div>
                 }
@@ -180,23 +203,6 @@
               </div>
 
               <div class="mb-3">
-                <label class="form-label" for="field_model" jhiTranslate="voipadminApp.device.model">Model</label>
-                <select
-                  class="form-control"
-                  id="field_model"
-                  data-cy="model"
-                  name="model"
-                  formControlName="model"
-                  [compareWith]="compareDeviceModel"
-                >
-                  <option [ngValue]="null"></option>
-                  @for (deviceModelOption of deviceModelsSharedCollection; track $index) {
-                  <option [ngValue]="deviceModelOption">{{ deviceModelOption.vendor?.name}} {{deviceModelOption.name }}</option>
-                  }
-                </select>
-              </div>
-
-              <div class="mb-3">
                 <label class="form-label" for="field_owner" jhiTranslate="voipadminApp.device.owner">Owner</label>
                 <select class="form-control" id="field_owner" data-cy="owner" name="owner" formControlName="owner" [compareWith]="compareOwner">
                   <option [ngValue]="null"></option>
@@ -231,7 +237,55 @@
           <a ngbNavLink jhiTranslate="voipadminApp.device.tabs.line">Line Settings</a>
           <ng-template ngbNavContent>
             <div class="tab-content">
-              Line Settings
+
+              <div class="setting-group" formArrayName="voipAccounts">
+                <fieldset *ngFor="let voipAccount of voipAccounts.controls; let i = index;" [formGroupName]="i" class="mt-1">
+                  <legend jhiTranslate="voipadminApp.voipAccount.lineWithNumber"
+                          [translateValues]="{ lineNumber: i + 1 }">Line # {{ i + 1 }}</legend>
+                    <button type="button" class="btn close float-end" aria-hidden="true" title="Clear line settings"
+                    (click)="resetVoipAccount(i)">&times;</button>
+                  
+                  <div class="col">
+                    <input type="hidden" class="form-control" name="lineNumber" [id]="'field_lineNumber' + i"
+                           data-cy="lineNumber" formControlName="lineNumber" [ngModel]="i + 1"/>
+                  </div>
+
+                  <div class="form-group mb-1">
+                    <label class="form-control-label" jhiTranslate="voipadminApp.voipAccount.lineEnable"
+                           [for]="'field_lineEnable' + i">Line Enable</label>
+                    <input
+                      type="checkbox"
+                      class="form-check"
+                      name="lineEnable"
+                      [id]="'field_lineEnable' + i"
+                      data-cy="lineEnable"
+                      formControlName="lineEnable"
+                    />
+                  </div>
+
+                  <div class="row form-group mb-1">
+                    <div class="col">
+                      <input type="text" class="form-control" name="value" id="field_username" placeholder="Username"
+                             formControlName="username"/>
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" name="value" id="field_passwordHash" placeholder="Password"
+                             formControlName="passwordHash"/>
+                    </div>
+                  </div>
+
+                  <div class="row form-group mb-1">
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" name="value" id="field_sipServer" placeholder="SIP-Server"
+                             formControlName="sipServer"/>
+                    </div>
+                    <div class="col-md-3">
+                      <input type="text" class="form-control" name="value" id="field_sipPort" placeholder="SIP-Port"
+                             formControlName="sipPort"/>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
             </div>
           </ng-template>
         </li>

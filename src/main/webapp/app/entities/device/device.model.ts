@@ -1,6 +1,7 @@
 import { IDeviceModel } from 'app/entities/device-model/device-model.model';
 import { IOwner } from 'app/entities/owner/owner.model';
 import { ProvisioningMode } from 'app/entities/enumerations/provisioning-mode.model';
+import { IVoipAccount } from '../voip-account/voip-account.model';
 
 export interface IDevice {
   id: number;
@@ -24,6 +25,7 @@ export interface IDevice {
   model?: Pick<IDeviceModel, 'id' | 'name'> | null;
   owner?: Pick<IOwner, 'id' | 'lastName'> | null;
   parent?: Pick<IDevice, 'id'> | null;
+  voipAccounts?: Pick<IVoipAccount, 'id' | 'username'>[] | null;
 }
 
 export type NewDevice = Omit<IDevice, 'id'> & { id: null };

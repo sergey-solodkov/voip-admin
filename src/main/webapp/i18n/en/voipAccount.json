@@ -25,6 +25,7 @@
       "sipPort": "Sip Port",
       "lineEnable": "Line Enable",
       "lineNumber": "Line Number",
+      "lineWithNumber": "Line # {{ lineNumber }}",
       "device": "Device"
     }
   }

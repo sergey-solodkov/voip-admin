@@ -11,11 +11,9 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Device} and its DTO {@link DeviceDTO}.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {VoipAccountMapper.class, DeviceModelMapper.class})
 public interface DeviceMapper extends EntityMapper<DeviceDTO, Device> {
-    @Mapping(target = "model", source = "model", qualifiedByName = "deviceModelName")
     @Mapping(target = "owner", source = "owner", qualifiedByName = "ownerLastName")
-    @Mapping(target = "parent", source = "parent", qualifiedByName = "deviceId")
     DeviceDTO toDto(Device s);
 
     @Named("deviceId")

@@ -85,7 +85,7 @@ public class Device implements Serializable {
     @JsonIgnoreProperties(value = { "option", "selectedValues", "device" }, allowSetters = true)
     private Set<Setting> settings = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "device")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true) // TODO rm lazy?
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "device" }, allowSetters = true)
     private Set<VoipAccount> voipAccounts = new HashSet<>();

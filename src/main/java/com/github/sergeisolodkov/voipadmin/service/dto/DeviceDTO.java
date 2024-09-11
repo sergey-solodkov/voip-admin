@@ -4,6 +4,7 @@ import com.github.sergeisolodkov.voipadmin.domain.enumeration.ProvisioningMode;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.github.sergeisolodkov.voipadmin.domain.Device} entity.
@@ -53,6 +54,8 @@ public class DeviceDTO implements Serializable {
     private OwnerDTO owner;
 
     private DeviceDTO parent;
+
+    private Set<VoipAccountDTO> voipAccounts;
 
     public Long getId() {
         return id;
@@ -222,6 +225,14 @@ public class DeviceDTO implements Serializable {
         this.parent = parent;
     }
 
+    public Set<VoipAccountDTO> getVoipAccounts() {
+        return voipAccounts;
+    }
+
+    public void setVoipAccounts(Set<VoipAccountDTO> voipAccounts) {
+        this.voipAccounts = voipAccounts;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -268,6 +279,7 @@ public class DeviceDTO implements Serializable {
             ", model=" + getModel() +
             ", owner=" + getOwner() +
             ", parent=" + getParent() +
+            ", voipAccounts=" + getVoipAccounts() +
             "}";
     }
 }

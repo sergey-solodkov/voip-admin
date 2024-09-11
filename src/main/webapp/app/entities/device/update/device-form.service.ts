@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { IDevice, NewDevice } from '../device.model';
+import { VoipAccountFormGroup } from 'app/entities/voip-account/update/voip-account-form.service';
 
 /**
  * A partial Type with required key is used as form input.
@@ -38,6 +39,7 @@ type DeviceFormGroupContent = {
   model: FormControl<IDevice['model']>;
   owner: FormControl<IDevice['owner']>;
   parent: FormControl<IDevice['parent']>;
+  voipAccounts: FormArray<VoipAccountFormGroup>;
 };
 
 export type DeviceFormGroup = FormGroup<DeviceFormGroupContent>;
@@ -79,6 +81,7 @@ export class DeviceFormService {
       model: new FormControl(deviceRawValue.model),
       owner: new FormControl(deviceRawValue.owner),
       parent: new FormControl(deviceRawValue.parent),
+      voipAccounts: new FormArray<VoipAccountFormGroup>([]),
     });
   }
 
