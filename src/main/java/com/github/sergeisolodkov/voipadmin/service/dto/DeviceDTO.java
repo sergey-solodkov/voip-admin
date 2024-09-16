@@ -57,6 +57,8 @@ public class DeviceDTO implements Serializable {
 
     private Set<VoipAccountDTO> voipAccounts;
 
+    private Set<SettingDTO> settings;
+
     public Long getId() {
         return id;
     }
@@ -233,6 +235,14 @@ public class DeviceDTO implements Serializable {
         this.voipAccounts = voipAccounts;
     }
 
+    public Set<SettingDTO> getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Set<SettingDTO> settings) {
+        this.settings = settings;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -280,6 +290,7 @@ public class DeviceDTO implements Serializable {
             ", owner=" + getOwner() +
             ", parent=" + getParent() +
             ", voipAccounts=" + getVoipAccounts() +
+            ", settings=" + getSettings() +
             "}";
     }
 }

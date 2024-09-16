@@ -5,7 +5,7 @@ import { IDevice } from 'app/entities/device/device.model';
 export interface ISetting {
   id: number;
   textValue?: string | null;
-  option?: Pick<IOption, 'id' | 'code'> | null;
+  option?: Pick<IOption, 'id' | 'code' | 'multiple'> | null;
   selectedValues?: Pick<IOptionValue, 'id'>[] | null;
   device?: Pick<IDevice, 'id'> | null;
 }

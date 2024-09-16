@@ -26,6 +26,8 @@ public class OptionDTO implements Serializable {
 
     private Set<DeviceModelDTO> models = new HashSet<>();
 
+    private Set<OptionValueDTO> possibleValues = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -80,6 +82,14 @@ public class OptionDTO implements Serializable {
 
     public void setModels(Set<DeviceModelDTO> models) {
         this.models = models;
+    }
+
+    public Set<OptionValueDTO> getPossibleValues() {
+        return possibleValues;
+    }
+
+    public void setPossibleValues(Set<OptionValueDTO> possibleValues) {
+        this.possibleValues = possibleValues;
     }
 
     @Override

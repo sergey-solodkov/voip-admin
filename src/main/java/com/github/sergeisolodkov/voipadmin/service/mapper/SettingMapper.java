@@ -15,9 +15,9 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Setting} and its DTO {@link SettingDTO}.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {OptionMapper.class})
 public interface SettingMapper extends EntityMapper<SettingDTO, Setting> {
-    @Mapping(target = "option", source = "option", qualifiedByName = "optionCode")
+    @Mapping(target = "option", source = "option")
     @Mapping(target = "selectedValues", source = "selectedValues", qualifiedByName = "optionValueIdSet")
     @Mapping(target = "device", source = "device", qualifiedByName = "deviceId")
     SettingDTO toDto(Setting s);

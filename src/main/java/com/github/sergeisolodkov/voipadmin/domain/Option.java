@@ -39,7 +39,7 @@ public class Option implements Serializable {
     @Column(name = "multiple")
     private Boolean multiple;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "option")
+    @OneToMany(mappedBy = "option", cascade = CascadeType.ALL, orphanRemoval = true)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "settings", "option" }, allowSetters = true)
     private Set<OptionValue> possibleValues = new HashSet<>();

@@ -43,7 +43,20 @@ export class SettingFormService {
       ),
       textValue: new FormControl(settingRawValue.textValue),
       option: new FormControl(settingRawValue.option),
-      selectedValues: new FormControl(settingRawValue.selectedValues ?? []),
+      selectedValues: new FormControl(
+        {
+          value: settingRawValue.option?.multiple
+            ? settingRawValue.selectedValues
+            : settingRawValue.selectedValues
+              ? [settingRawValue.selectedValues[0]]
+              : null,
+          disabled: false,
+        },
+        {
+          nonNullable: true,
+          validators: [Validators.required],
+        },
+      ),
       device: new FormControl(settingRawValue.device),
     });
   }

@@ -2,9 +2,11 @@ package com.github.sergeisolodkov.voipadmin.service.mapper;
 
 import com.github.sergeisolodkov.voipadmin.domain.DeviceModel;
 import com.github.sergeisolodkov.voipadmin.domain.Option;
+import com.github.sergeisolodkov.voipadmin.domain.OptionValue;
 import com.github.sergeisolodkov.voipadmin.domain.Vendor;
 import com.github.sergeisolodkov.voipadmin.service.dto.DeviceModelDTO;
 import com.github.sergeisolodkov.voipadmin.service.dto.OptionDTO;
+import com.github.sergeisolodkov.voipadmin.service.dto.OptionValueDTO;
 import com.github.sergeisolodkov.voipadmin.service.dto.VendorDTO;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,6 +19,7 @@ import org.mapstruct.*;
 public interface OptionMapper extends EntityMapper<OptionDTO, Option> {
     @Mapping(target = "vendors", source = "vendors", qualifiedByName = "vendorNameSet")
     @Mapping(target = "models", source = "models", qualifiedByName = "deviceModelNameSet")
+    @Mapping(target = "possibleValues", source = "possibleValues", qualifiedByName = "optionValueNameSet")
     OptionDTO toDto(Option s);
 
     @Mapping(target = "removeVendors", ignore = true)
@@ -44,5 +47,16 @@ public interface OptionMapper extends EntityMapper<OptionDTO, Option> {
     @Named("deviceModelNameSet")
     default Set<DeviceModelDTO> toDtoDeviceModelNameSet(Set<DeviceModel> deviceModel) {
         return deviceModel.stream().map(this::toDtoDeviceModelName).collect(Collectors.toSet());
+    }
+
+    @Named("optionValueName")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "value", source = "value")
+    OptionValueDTO toDtoOptionValueName(OptionValue optionValue);
+
+    @Named("optionValueNameSet")
+    default Set<OptionValueDTO> toDtoOptionValueNameSet(Set<OptionValue> optionValues) {
+        return optionValues.stream().map(this::toDtoOptionValueName).collect(Collectors.toSet());
     }
 }

@@ -294,7 +294,50 @@
           <a ngbNavLink jhiTranslate="voipadminApp.device.tabs.additional">Additional Settings</a>
           <ng-template ngbNavContent>
             <div class="tab-content">
-              Additional Settings
+              <div class="setting-group" formArrayName="settings">
+                <fieldset *ngFor="let setting of settings.controls; let i = index;" [formGroupName]="i">
+                  <button type="button" class="btn close float-end" aria-hidden="true" title="Remove"
+                          (click)="removeSetting(i)">&times;</button>
+                  <div class="form-group mb-1">
+                    <label class="form-control-label" jhiTranslate="voipadminApp.option.detail.title" for="field_option">Option</label>
+                    <select class="form-control"
+                            id="field_option"
+                            data-cy="option" 
+                            formControlName="option"
+                            [compareWith]="compareDeviceModel"
+                            (ngModelChange)="onSettingOptionChange($event, i)">
+                      @for (optionOption of optionsSharedCollection; track $index) {
+                      <option [ngValue]="optionOption">{{ optionOption.code }}</option>
+                      }
+                    </select>
+                  </div>
+                  
+                  <div class="form-group mb-1">
+                    @if (setting.get('option')?.value?.valueType === 'TEXT') {
+                    <input type="text" class="form-control" name="value" id="field_textValue" placeholder="Value"
+                          formControlName="textValue"/>
+                    }
+                    @if (setting.get('option')?.value?.valueType === 'SELECT') {
+                    <select class="form-control"
+                          bindLabel="value"
+                          formControlName="selectedValues"
+                          placeholder="Value"
+                          [compareWith]="compareOptionValue"
+                          [multiple]="setting.get('option')?.value?.multiple">
+                      @for (settingPossibleValueOption of settingPossibleValues[i]; track $index) {
+                      <option [ngValue]="settingPossibleValueOption">{{ settingPossibleValueOption.value }}</option>
+                    }
+                    </select>
+                    }
+                  </div>
+                </fieldset>
+
+                <div *ngIf="optionsSharedCollection.length !== settings.length" class="add-new-setting-button">
+                  <button type="button" id="add-setting" class="btn btn-secondary" (click)="addSetting()">
+                    <span [jhiTranslate]="settings.length === 0 ? 'voipadminApp.setting.action.addNew' : 'voipadminApp.setting.action.setAnother'">Set Option</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </ng-template>
         </li>

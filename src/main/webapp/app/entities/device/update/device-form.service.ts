@@ -3,6 +3,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { IDevice, NewDevice } from '../device.model';
 import { VoipAccountFormGroup } from 'app/entities/voip-account/update/voip-account-form.service';
+import { SettingFormGroup } from 'app/entities/setting/update/setting-form.service';
 
 /**
  * A partial Type with required key is used as form input.
@@ -40,6 +41,7 @@ type DeviceFormGroupContent = {
   owner: FormControl<IDevice['owner']>;
   parent: FormControl<IDevice['parent']>;
   voipAccounts: FormArray<VoipAccountFormGroup>;
+  settings: FormArray<SettingFormGroup>;
 };
 
 export type DeviceFormGroup = FormGroup<DeviceFormGroupContent>;
@@ -82,6 +84,7 @@ export class DeviceFormService {
       owner: new FormControl(deviceRawValue.owner),
       parent: new FormControl(deviceRawValue.parent),
       voipAccounts: new FormArray<VoipAccountFormGroup>([]),
+      settings: new FormArray<SettingFormGroup>([]),
     });
   }
 
