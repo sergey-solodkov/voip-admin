@@ -2,11 +2,11 @@
   "voipadminApp": {
     "DeviceType": {
       "null": "",
-      "IPPHONE": "IPPHONE",
-      "IPGATEWAY": "IPGATEWAY",
-      "HANDSET": "HANDSET",
-      "HEADSET": "HEADSET",
-      "OTHER": "OTHER"
+      "IPPHONE": "IP Phone",
+      "IPGATEWAY": "IP Gateway",
+      "HANDSET": "Handset",
+      "HEADSET": "Headset",
+      "OTHER": "Other"
     }
   }
 }

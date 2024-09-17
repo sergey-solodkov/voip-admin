@@ -23,6 +23,7 @@
       "fieldType": "Boolean"
     }
   ],
+  "jpaMetamodelFiltering": true,
   "name": "Option",
   "pagination": "pagination",
   "relationships": [

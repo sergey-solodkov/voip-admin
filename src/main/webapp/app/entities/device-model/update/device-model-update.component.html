@@ -9,152 +9,173 @@
         Create or edit a Device Model
       </h2>
 
-      <div>
-        <jhi-alert-error></jhi-alert-error>
+      <ul ngbNav #nav='ngbNav' class="nav-tabs">
+        <li ngbNavItem>
+          <a ngbNavLink jhiTranslate="voipadminApp.deviceModel.tabs.general">General</a>
+          <ng-template ngbNavContent>
+            <div class="tab-content">
+              <jhi-alert-error></jhi-alert-error>
 
-        @if (editForm.controls.id.value !== null) {
-          <div class="mb-3">
-            <label class="form-label" for="field_id" jhiTranslate="voipadminApp.deviceModel.id">ID</label>
-            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-          </div>
-        }
+              @if (editForm.controls.id.value !== null) {
+                <div class="mb-3">
+                  <label class="form-label" for="field_id" jhiTranslate="voipadminApp.deviceModel.id">ID</label>
+                  <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+                </div>
+              }
 
-        @let nameRef = editForm.get('name')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_name" jhiTranslate="voipadminApp.deviceModel.name">Name</label>
-          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
-          @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
-            <div>
-              @if (editForm.get('name')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              <div class="mb-3">
+                <label class="form-label" for="field_vendor" jhiTranslate="voipadminApp.deviceModel.vendor">Vendor</label>
+                <select
+                  class="form-control"
+                  id="field_vendor"
+                  data-cy="vendor"
+                  name="vendor"
+                  formControlName="vendor"
+                  [compareWith]="compareVendor"
+                  (change)="onVendorChange()"
+                >
+                  <option [ngValue]="null"></option>
+                  @for (vendorOption of vendorsSharedCollection; track $index) {
+                    <option [ngValue]="vendorOption">{{ vendorOption.name }}</option>
+                  }
+                </select>
+              </div>
+      
+              @let nameRef = editForm.get('name')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_name" jhiTranslate="voipadminApp.deviceModel.name">Name</label>
+                <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+                @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
+                  <div>
+                    @if (editForm.get('name')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                  </div>
+                }
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label" for="field_deviceType" jhiTranslate="voipadminApp.deviceModel.deviceType">Device Type</label>
+                <select class="form-control" name="deviceType" formControlName="deviceType" id="field_deviceType" data-cy="deviceType">
+                  <option [ngValue]="null">{{ 'voipadminApp.DeviceType.null' | translate }}</option>
+                  @for (deviceType of deviceTypeValues; track $index) {
+                    <option [value]="deviceType">{{ 'voipadminApp.DeviceType.' + deviceType | translate }}</option>
+                  }
+                </select>
+              </div>
+      
+              @if (editForm.controls.deviceType.value == 'OTHER') {
+              <div class="mb-3">
+                <label class="form-label" for="field_otherDeviceType" jhiTranslate="voipadminApp.deviceModel.otherDeviceType"
+                  >Other Device Type</label
+                >
+                <select
+                  class="form-control"
+                  id="field_otherDeviceType"
+                  data-cy="otherDeviceType"
+                  name="otherDeviceType"
+                  formControlName="otherDeviceType"
+                  [compareWith]="compareOtherDeviceType"
+                >
+                  <option [ngValue]="null"></option>
+                  @for (otherDeviceTypeOption of otherDeviceTypesSharedCollection; track $index) {
+                    <option [ngValue]="otherDeviceTypeOption">{{ otherDeviceTypeOption.id }}</option>
+                  }
+                </select>
+              </div>
+              }
+      
+              @let configurableRef = editForm.get('configurable')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_configurable" jhiTranslate="voipadminApp.deviceModel.configurable">Configurable</label>
+                <input
+                  type="checkbox"
+                  class="form-check"
+                  name="configurable"
+                  id="field_configurable"
+                  data-cy="configurable"
+                  formControlName="configurable"
+                />
+                @if (configurableRef.invalid && (configurableRef.dirty || configurableRef.touched)) {
+                  <div>
+                    @if (editForm.get('configurable')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                  </div>
+                }
+              </div>
+      
+              @if (editForm.get('configurable')?.value) {
+              <div class="mb-3">
+                <label class="form-label" for="field_linesAmount" jhiTranslate="voipadminApp.deviceModel.linesAmount">Lines Amount</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="linesAmount"
+                  id="field_linesAmount"
+                  data-cy="linesAmount"
+                  formControlName="linesAmount"
+                />
+              </div>
+        
+              <div class="mb-3">
+                <label class="form-label" for="field_configTemplatePath" jhiTranslate="voipadminApp.deviceModel.configTemplatePath"
+                  >Config Template Path</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="configTemplatePath"
+                  id="field_configTemplatePath"
+                  data-cy="configTemplatePath"
+                  formControlName="configTemplatePath"
+                />
+              </div>
+      
+              <div class="mb-3">
+                <label class="form-label" for="field_firmwareFilePath" jhiTranslate="voipadminApp.deviceModel.firmwareFilePath"
+                  >Firmware File Path</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="firmwareFilePath"
+                  id="field_firmwareFilePath"
+                  data-cy="firmwareFilePath"
+                  formControlName="firmwareFilePath"
+                />
+              </div>
               }
             </div>
-          }
-        </div>
+          </ng-template>
+        </li>
 
-        @let configurableRef = editForm.get('configurable')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_configurable" jhiTranslate="voipadminApp.deviceModel.configurable">Configurable</label>
-          <input
-            type="checkbox"
-            class="form-check"
-            name="configurable"
-            id="field_configurable"
-            data-cy="configurable"
-            formControlName="configurable"
-          />
-          @if (configurableRef.invalid && (configurableRef.dirty || configurableRef.touched)) {
-            <div>
-              @if (editForm.get('configurable')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
+        <li ngbNavItem>
+          <a ngbNavLink jhiTranslate="voipadminApp.deviceModel.tabs.options">Options</a>
+          <ng-template ngbNavContent>
+            <div class="tab-content">
+              <div class="mb-3">
+                <label for="field_options" jhiTranslate="voipadminApp.deviceModel.options">Options</label>
+                <select
+                  class="form-control"
+                  id="field_options"
+                  data-cy="options"
+                  multiple
+                  name="options"
+                  formControlName="options"
+                  [compareWith]="compareOption"
+                >
+                  @for (optionOption of optionsSharedCollection; track $index) {
+                    <option [ngValue]="optionOption">{{ optionOption.code }}</option>
+                  }
+                </select>
+              </div>
             </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_linesAmount" jhiTranslate="voipadminApp.deviceModel.linesAmount">Lines Amount</label>
-          <input
-            type="number"
-            class="form-control"
-            name="linesAmount"
-            id="field_linesAmount"
-            data-cy="linesAmount"
-            formControlName="linesAmount"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_configTemplatePath" jhiTranslate="voipadminApp.deviceModel.configTemplatePath"
-            >Config Template Path</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="configTemplatePath"
-            id="field_configTemplatePath"
-            data-cy="configTemplatePath"
-            formControlName="configTemplatePath"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_firmwareFilePath" jhiTranslate="voipadminApp.deviceModel.firmwareFilePath"
-            >Firmware File Path</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="firmwareFilePath"
-            id="field_firmwareFilePath"
-            data-cy="firmwareFilePath"
-            formControlName="firmwareFilePath"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_deviceType" jhiTranslate="voipadminApp.deviceModel.deviceType">Device Type</label>
-          <select class="form-control" name="deviceType" formControlName="deviceType" id="field_deviceType" data-cy="deviceType">
-            <option [ngValue]="null">{{ 'voipadminApp.DeviceType.null' | translate }}</option>
-            @for (deviceType of deviceTypeValues; track $index) {
-              <option [value]="deviceType">{{ 'voipadminApp.DeviceType.' + deviceType | translate }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_otherDeviceType" jhiTranslate="voipadminApp.deviceModel.otherDeviceType"
-            >Other Device Type</label
-          >
-          <select
-            class="form-control"
-            id="field_otherDeviceType"
-            data-cy="otherDeviceType"
-            name="otherDeviceType"
-            formControlName="otherDeviceType"
-            [compareWith]="compareOtherDeviceType"
-          >
-            <option [ngValue]="null"></option>
-            @for (otherDeviceTypeOption of otherDeviceTypesSharedCollection; track $index) {
-              <option [ngValue]="otherDeviceTypeOption">{{ otherDeviceTypeOption.id }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_vendor" jhiTranslate="voipadminApp.deviceModel.vendor">Vendor</label>
-          <select
-            class="form-control"
-            id="field_vendor"
-            data-cy="vendor"
-            name="vendor"
-            formControlName="vendor"
-            [compareWith]="compareVendor"
-          >
-            <option [ngValue]="null"></option>
-            @for (vendorOption of vendorsSharedCollection; track $index) {
-              <option [ngValue]="vendorOption">{{ vendorOption.name }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="field_options" jhiTranslate="voipadminApp.deviceModel.options">Options</label>
-          <select
-            class="form-control"
-            id="field_options"
-            data-cy="options"
-            multiple
-            name="options"
-            formControlName="options"
-            [compareWith]="compareOption"
-          >
-            @for (optionOption of optionsSharedCollection; track $index) {
-              <option [ngValue]="optionOption">{{ optionOption.code }}</option>
-            }
-          </select>
-        </div>
-      </div>
+          </ng-template>
+        </li>
+      </ul>
+        
+      <div [ngbNavOutlet]="nav"></div>
 
       <div>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">

@@ -62,13 +62,6 @@ public class OptionServiceImpl implements OptionService {
             .map(optionMapper::toDto);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<OptionDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all Options");
-        return optionRepository.findAll(pageable).map(optionMapper::toDto);
-    }
-
     public Page<OptionDTO> findAllWithEagerRelationships(Pageable pageable) {
         return optionRepository.findAllWithEagerRelationships(pageable).map(optionMapper::toDto);
     }

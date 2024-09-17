@@ -10,7 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.sergeisolodkov.voipadmin.IntegrationTest;
+import com.github.sergeisolodkov.voipadmin.domain.DeviceModel;
 import com.github.sergeisolodkov.voipadmin.domain.Option;
+import com.github.sergeisolodkov.voipadmin.domain.Vendor;
 import com.github.sergeisolodkov.voipadmin.domain.enumeration.OptionValueType;
 import com.github.sergeisolodkov.voipadmin.repository.OptionRepository;
 import com.github.sergeisolodkov.voipadmin.service.OptionService;
@@ -213,6 +215,271 @@ class OptionResourceIT {
             .andExpect(jsonPath("$.descr").value(DEFAULT_DESCR))
             .andExpect(jsonPath("$.valueType").value(DEFAULT_VALUE_TYPE.toString()))
             .andExpect(jsonPath("$.multiple").value(DEFAULT_MULTIPLE.booleanValue()));
+    }
+
+    @Test
+    @Transactional
+    void getOptionsByIdFiltering() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        Long id = option.getId();
+
+        defaultOptionFiltering("id.equals=" + id, "id.notEquals=" + id);
+
+        defaultOptionFiltering("id.greaterThanOrEqual=" + id, "id.greaterThan=" + id);
+
+        defaultOptionFiltering("id.lessThanOrEqual=" + id, "id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByCodeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where code equals to
+        defaultOptionFiltering("code.equals=" + DEFAULT_CODE, "code.equals=" + UPDATED_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByCodeIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where code in
+        defaultOptionFiltering("code.in=" + DEFAULT_CODE + "," + UPDATED_CODE, "code.in=" + UPDATED_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByCodeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where code is not null
+        defaultOptionFiltering("code.specified=true", "code.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByCodeContainsSomething() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where code contains
+        defaultOptionFiltering("code.contains=" + DEFAULT_CODE, "code.contains=" + UPDATED_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByCodeNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where code does not contain
+        defaultOptionFiltering("code.doesNotContain=" + UPDATED_CODE, "code.doesNotContain=" + DEFAULT_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByDescrIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where descr equals to
+        defaultOptionFiltering("descr.equals=" + DEFAULT_DESCR, "descr.equals=" + UPDATED_DESCR);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByDescrIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where descr in
+        defaultOptionFiltering("descr.in=" + DEFAULT_DESCR + "," + UPDATED_DESCR, "descr.in=" + UPDATED_DESCR);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByDescrIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where descr is not null
+        defaultOptionFiltering("descr.specified=true", "descr.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByDescrContainsSomething() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where descr contains
+        defaultOptionFiltering("descr.contains=" + DEFAULT_DESCR, "descr.contains=" + UPDATED_DESCR);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByDescrNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where descr does not contain
+        defaultOptionFiltering("descr.doesNotContain=" + UPDATED_DESCR, "descr.doesNotContain=" + DEFAULT_DESCR);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByValueTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where valueType equals to
+        defaultOptionFiltering("valueType.equals=" + DEFAULT_VALUE_TYPE, "valueType.equals=" + UPDATED_VALUE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByValueTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where valueType in
+        defaultOptionFiltering("valueType.in=" + DEFAULT_VALUE_TYPE + "," + UPDATED_VALUE_TYPE, "valueType.in=" + UPDATED_VALUE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByValueTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where valueType is not null
+        defaultOptionFiltering("valueType.specified=true", "valueType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByMultipleIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where multiple equals to
+        defaultOptionFiltering("multiple.equals=" + DEFAULT_MULTIPLE, "multiple.equals=" + UPDATED_MULTIPLE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByMultipleIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where multiple in
+        defaultOptionFiltering("multiple.in=" + DEFAULT_MULTIPLE + "," + UPDATED_MULTIPLE, "multiple.in=" + UPDATED_MULTIPLE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByMultipleIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedOption = optionRepository.saveAndFlush(option);
+
+        // Get all the optionList where multiple is not null
+        defaultOptionFiltering("multiple.specified=true", "multiple.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByVendorsIsEqualToSomething() throws Exception {
+        Vendor vendors;
+        if (TestUtil.findAll(em, Vendor.class).isEmpty()) {
+            optionRepository.saveAndFlush(option);
+            vendors = VendorResourceIT.createEntity();
+        } else {
+            vendors = TestUtil.findAll(em, Vendor.class).get(0);
+        }
+        em.persist(vendors);
+        em.flush();
+        option.addVendors(vendors);
+        optionRepository.saveAndFlush(option);
+        Long vendorsId = vendors.getId();
+        // Get all the optionList where vendors equals to vendorsId
+        defaultOptionShouldBeFound("vendorsId.equals=" + vendorsId);
+
+        // Get all the optionList where vendors equals to (vendorsId + 1)
+        defaultOptionShouldNotBeFound("vendorsId.equals=" + (vendorsId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllOptionsByModelsIsEqualToSomething() throws Exception {
+        DeviceModel models;
+        if (TestUtil.findAll(em, DeviceModel.class).isEmpty()) {
+            optionRepository.saveAndFlush(option);
+            models = DeviceModelResourceIT.createEntity();
+        } else {
+            models = TestUtil.findAll(em, DeviceModel.class).get(0);
+        }
+        em.persist(models);
+        em.flush();
+        option.addModels(models);
+        optionRepository.saveAndFlush(option);
+        Long modelsId = models.getId();
+        // Get all the optionList where models equals to modelsId
+        defaultOptionShouldBeFound("modelsId.equals=" + modelsId);
+
+        // Get all the optionList where models equals to (modelsId + 1)
+        defaultOptionShouldNotBeFound("modelsId.equals=" + (modelsId + 1));
+    }
+
+    private void defaultOptionFiltering(String shouldBeFound, String shouldNotBeFound) throws Exception {
+        defaultOptionShouldBeFound(shouldBeFound);
+        defaultOptionShouldNotBeFound(shouldNotBeFound);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultOptionShouldBeFound(String filter) throws Exception {
+        restOptionMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(option.getId().intValue())))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].descr").value(hasItem(DEFAULT_DESCR)))
+            .andExpect(jsonPath("$.[*].valueType").value(hasItem(DEFAULT_VALUE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].multiple").value(hasItem(DEFAULT_MULTIPLE.booleanValue())));
+
+        // Check, that the count call also returns 1
+        restOptionMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultOptionShouldNotBeFound(String filter) throws Exception {
+        restOptionMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restOptionMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

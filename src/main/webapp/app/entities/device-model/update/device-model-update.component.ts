@@ -17,6 +17,8 @@ import { DeviceType } from 'app/entities/enumerations/device-type.model';
 import { DeviceModelService } from '../service/device-model.service';
 import { IDeviceModel } from '../device-model.model';
 import { DeviceModelFormGroup, DeviceModelFormService } from './device-model-form.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { VendorChangeDialogComponent } from './vendor-change-dialog/vendor-change-dialog.component';
 
 @Component({
   standalone: true,
@@ -28,6 +30,7 @@ export class DeviceModelUpdateComponent implements OnInit {
   isSaving = false;
   deviceModel: IDeviceModel | null = null;
   deviceTypeValues = Object.keys(DeviceType);
+  oldVendorValue: Pick<IVendor, 'id' | 'name'> | null | undefined;
 
   otherDeviceTypesSharedCollection: IOtherDeviceType[] = [];
   vendorsSharedCollection: IVendor[] = [];
@@ -39,6 +42,7 @@ export class DeviceModelUpdateComponent implements OnInit {
   protected vendorService = inject(VendorService);
   protected optionService = inject(OptionService);
   protected activatedRoute = inject(ActivatedRoute);
+  protected modalService = inject(NgbModal);
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: DeviceModelFormGroup = this.deviceModelFormService.createDeviceModelFormGroup();
@@ -55,6 +59,7 @@ export class DeviceModelUpdateComponent implements OnInit {
       this.deviceModel = deviceModel;
       if (deviceModel) {
         this.updateForm(deviceModel);
+        this.oldVendorValue = deviceModel.vendor;
       }
 
       this.loadRelationshipsOptions();
@@ -73,6 +78,41 @@ export class DeviceModelUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.deviceModelService.create(deviceModel));
     }
+  }
+
+  onVendorChange(): void {
+    if (this.oldVendorValue) {
+      const modalRef = this.modalService.open(VendorChangeDialogComponent, { size: 'lg', backdrop: 'static' });
+      modalRef.componentInstance.oldValue = this.oldVendorValue;
+      modalRef.componentInstance.newValue = this.editForm.get('vendor')?.value;
+      modalRef.closed.subscribe(result => {
+        this.editForm.patchValue({
+          vendor: result,
+          options: [],
+        });
+        this.updateVendorOptions();
+        this.oldVendorValue = result;
+      });
+    } else {
+      this.oldVendorValue = this.editForm.get('vendor')?.value;
+      this.updateVendorOptions();
+    }
+  }
+
+  updateVendorOptions(): void {
+    if (!this.editForm.get('vendor')?.value) {
+      this.optionsSharedCollection = [];
+      return;
+    }
+    this.optionService
+      .query({ 'vendorsId.equals': this.editForm.get('vendor')?.value?.id })
+      .pipe(map((res: HttpResponse<IOption[]>) => res.body ?? []))
+      .pipe(
+        map((options: IOption[]) =>
+          this.optionService.addOptionToCollectionIfMissing(options, ...(this.editForm.get('options')!.value ?? [])),
+        ),
+      )
+      .subscribe((options: IOption[]) => (this.optionsSharedCollection = options));
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IDeviceModel>>): void {
@@ -132,14 +172,6 @@ export class DeviceModelUpdateComponent implements OnInit {
       .pipe(map((vendors: IVendor[]) => this.vendorService.addVendorToCollectionIfMissing<IVendor>(vendors, this.deviceModel?.vendor)))
       .subscribe((vendors: IVendor[]) => (this.vendorsSharedCollection = vendors));
 
-    this.optionService
-      .query()
-      .pipe(map((res: HttpResponse<IOption[]>) => res.body ?? []))
-      .pipe(
-        map((options: IOption[]) =>
-          this.optionService.addOptionToCollectionIfMissing<IOption>(options, ...(this.deviceModel?.options ?? [])),
-        ),
-      )
-      .subscribe((options: IOption[]) => (this.optionsSharedCollection = options));
+    this.updateVendorOptions();
   }
 }

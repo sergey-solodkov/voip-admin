@@ -34,14 +34,6 @@ public interface OptionService {
     Optional<OptionDTO> partialUpdate(OptionDTO optionDTO);
 
     /**
-     * Get all the options.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    Page<OptionDTO> findAll(Pageable pageable);
-
-    /**
      * Get all the options with eager load of many-to-many relationships.
      *
      * @param pageable the pagination information.

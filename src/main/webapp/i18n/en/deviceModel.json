@@ -8,11 +8,19 @@
         "createOrEditLabel": "Create or edit a Device Model",
         "notFound": "No Device Models found"
       },
+      "tabs": {
+        "general": "General settings",
+        "options": "Options"
+      },
       "created": "A new Device Model is created with identifier {{ param }}",
       "updated": "A Device Model is updated with identifier {{ param }}",
       "deleted": "A Device Model is deleted with identifier {{ param }}",
       "delete": {
         "question": "Are you sure you want to delete Device Model {{ id }}?"
+      },
+      "vendorChange": {
+        "question": "Are you sure you want to change this model's vendor? This will erase available options list.",
+        "title": "Confirm Vendor Changing"
       },
       "detail": {
         "title": "Device Model"

@@ -15,7 +15,8 @@ import org.springframework.stereotype.Repository;
  * For more information refer to https://github.com/jhipster/generator-jhipster/issues/17990.
  */
 @Repository
-public interface OptionRepository extends OptionRepositoryWithBagRelationships, JpaRepository<Option, Long> {
+public interface OptionRepository
+    extends OptionRepositoryWithBagRelationships, JpaRepository<Option, Long>, JpaSpecificationExecutor<Option> {
     default Optional<Option> findOneWithEagerRelationships(Long id) {
         return this.fetchBagRelationships(this.findById(id));
     }
