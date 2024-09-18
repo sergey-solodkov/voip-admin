@@ -2,6 +2,8 @@ package com.github.sergeisolodkov.voipadmin.service;
 
 import com.github.sergeisolodkov.voipadmin.service.dto.DeviceModelDTO;
 import java.util.Optional;
+
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -63,4 +65,18 @@ public interface DeviceModelService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * Get config template from storage.
+     * @param id device model ID.
+     * @return {@link Resource}
+     */
+    Resource getConfigTemplate(Long id);
+
+    /**
+     * Get firmware file from storage.
+     * @param id device model ID.
+     * @return {@link Resource}
+     */
+    Resource getFirmwareFile(Long id);
 }

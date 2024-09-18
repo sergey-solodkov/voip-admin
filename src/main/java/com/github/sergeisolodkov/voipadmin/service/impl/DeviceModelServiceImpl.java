@@ -3,11 +3,13 @@ package com.github.sergeisolodkov.voipadmin.service.impl;
 import com.github.sergeisolodkov.voipadmin.domain.DeviceModel;
 import com.github.sergeisolodkov.voipadmin.repository.DeviceModelRepository;
 import com.github.sergeisolodkov.voipadmin.service.DeviceModelService;
+import com.github.sergeisolodkov.voipadmin.service.FileStorageService;
 import com.github.sergeisolodkov.voipadmin.service.dto.DeviceModelDTO;
 import com.github.sergeisolodkov.voipadmin.service.mapper.DeviceModelMapper;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,9 +28,14 @@ public class DeviceModelServiceImpl implements DeviceModelService {
 
     private final DeviceModelMapper deviceModelMapper;
 
-    public DeviceModelServiceImpl(DeviceModelRepository deviceModelRepository, DeviceModelMapper deviceModelMapper) {
+    private final FileStorageService fileStorageService;
+
+    public DeviceModelServiceImpl(DeviceModelRepository deviceModelRepository,
+                                  DeviceModelMapper deviceModelMapper,
+                                  FileStorageService fileStorageService) {
         this.deviceModelRepository = deviceModelRepository;
         this.deviceModelMapper = deviceModelMapper;
+        this.fileStorageService = fileStorageService;
     }
 
     @Override
@@ -84,5 +91,23 @@ public class DeviceModelServiceImpl implements DeviceModelService {
     public void delete(Long id) {
         LOG.debug("Request to delete DeviceModel : {}", id);
         deviceModelRepository.deleteById(id);
+    }
+
+    @Override
+    public Resource getConfigTemplate(Long id) {
+        return deviceModelRepository
+            .findById(id)
+            .map(DeviceModel::getConfigTemplatePath)
+            .map(fileStorageService::downloadConfigTemplate)
+            .orElseThrow();
+    }
+
+    @Override
+    public Resource getFirmwareFile(Long id) {
+        return deviceModelRepository
+            .findById(id)
+            .map(DeviceModel::getFirmwareFilePath)
+            .map(fileStorageService::downloadFirmwareFile)
+            .orElseThrow();
     }
 }

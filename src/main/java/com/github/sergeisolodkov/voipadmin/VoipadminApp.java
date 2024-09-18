@@ -1,6 +1,6 @@
 package com.github.sergeisolodkov.voipadmin;
 
-import com.github.sergeisolodkov.voipadmin.config.ApplicationProperties;
+import com.github.sergeisolodkov.voipadmin.config.properties.ApplicationProperties;
 import com.github.sergeisolodkov.voipadmin.config.CRLFLogConverter;
 import jakarta.annotation.PostConstruct;
 import java.net.InetAddress;

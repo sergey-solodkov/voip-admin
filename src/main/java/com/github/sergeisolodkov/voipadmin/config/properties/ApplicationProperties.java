@@ -1,4 +1,4 @@
-package com.github.sergeisolodkov.voipadmin.config;
+package com.github.sergeisolodkov.voipadmin.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

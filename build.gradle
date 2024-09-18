@@ -159,6 +159,7 @@ dependencies {
     implementation "com.zaxxer:HikariCP"
     implementation "org.hibernate.orm:hibernate-core"
     implementation "org.hibernate.validator:hibernate-validator"
+    implementation "io.minio:minio:${minioVersion}"
     testImplementation "org.testcontainers:jdbc"
     testImplementation "org.testcontainers:junit-jupiter"
     testImplementation "org.testcontainers:testcontainers"
