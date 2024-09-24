@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -202,10 +205,20 @@ public class DeviceModelResource {
      * @param id device model ID.
      * @return {@link Resource}
      */
-    @GetMapping("/{id}/config-template")
-    public Resource getConfigTemplate(@PathVariable("id") Long id) {
+    @GetMapping(value = "/{id}/config-template", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<Resource> getConfigTemplate(@PathVariable("id") Long id) throws IOException {
         LOG.debug("REST request to download config template file for DeviceModel : {}", id);
-        return deviceModelService.getConfigTemplate(id);
+        var resource = deviceModelService.getConfigTemplate(id);
+
+        var contentDisposition = ContentDisposition.builder("attachment")
+            .filename(resource.getFilename())
+            .build();
+
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString())
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .contentLength(resource.contentLength())
+            .body(resource);
     }
 
     /**
@@ -214,8 +227,18 @@ public class DeviceModelResource {
      * @return {@link Resource}
      */
     @GetMapping("/{id}/firmware-file")
-    public Resource getFirmwareFile(@PathVariable("id") Long id) {
+    public ResponseEntity<Resource> getFirmwareFile(@PathVariable("id") Long id) throws IOException {
         LOG.debug("REST request to download firmware file for DeviceModel : {}", id);
-        return deviceModelService.getFirmwareFile(id);
+        var resource = deviceModelService.getFirmwareFile(id);
+
+        var contentDisposition = ContentDisposition.builder("attachment")
+            .filename(resource.getFilename())
+            .build();
+
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString())
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .contentLength(resource.contentLength())
+            .body(resource);
     }
 }

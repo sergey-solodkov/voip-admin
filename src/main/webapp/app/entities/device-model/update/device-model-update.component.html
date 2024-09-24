@@ -40,7 +40,7 @@
                   }
                 </select>
               </div>
-      
+
               @let nameRef = editForm.get('name')!;
               <div class="mb-3">
                 <label class="form-label" for="field_name" jhiTranslate="voipadminApp.deviceModel.name">Name</label>
@@ -63,7 +63,7 @@
                   }
                 </select>
               </div>
-      
+
               @if (editForm.controls.deviceType.value == 'OTHER') {
               <div class="mb-3">
                 <label class="form-label" for="field_otherDeviceType" jhiTranslate="voipadminApp.deviceModel.otherDeviceType"
@@ -84,7 +84,7 @@
                 </select>
               </div>
               }
-      
+
               @let configurableRef = editForm.get('configurable')!;
               <div class="mb-3">
                 <label class="form-label" for="field_configurable" jhiTranslate="voipadminApp.deviceModel.configurable">Configurable</label>
@@ -104,7 +104,7 @@
                   </div>
                 }
               </div>
-      
+
               @if (editForm.get('configurable')?.value) {
               <div class="mb-3">
                 <label class="form-label" for="field_linesAmount" jhiTranslate="voipadminApp.deviceModel.linesAmount">Lines Amount</label>
@@ -117,32 +117,76 @@
                   formControlName="linesAmount"
                 />
               </div>
-        
-              <div class="mb-3">
-                <label class="form-label" for="field_configTemplatePath" jhiTranslate="voipadminApp.deviceModel.configTemplatePath"
-                  >Config Template Path</label
+
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="voipadminApp.deviceModel.configTemplate" for="field_configTemplate"
+                >Config Template</label
                 >
+                @if (editForm.get('configTemplateFileName')?.value && !editForm.get('configTemplateFile')?.value) {
+                  <a
+                      class="pull-left"
+                      (click)="downloadConfigTemplateFile()"
+                      >Open</a>
+                }
+                <div>
+                  <input
+                    type="file"
+                    id="file_configTemplate"
+                    data-cy="configTemplate"
+                    (change)="setFileData($event, 'configTemplateFile', false)"
+                    jhiTranslate="entity.action.addblob"
+                  />
+                </div>
                 <input
-                  type="text"
+                  type="hidden"
                   class="form-control"
-                  name="configTemplatePath"
-                  id="field_configTemplatePath"
-                  data-cy="configTemplatePath"
-                  formControlName="configTemplatePath"
+                  name="configTemplateFile"
+                  id="field_configTemplateFile"
+                  data-cy="configTemplateFile"
+                  formControlName="configTemplateFile"
+                />
+                <input
+                  type="hidden"
+                  class="form-control"
+                  name="configTemplateFileContentType"
+                  id="field_configTemplateFileContentType"
+                  formControlName="configTemplateFileContentType"
                 />
               </div>
-      
-              <div class="mb-3">
-                <label class="form-label" for="field_firmwareFilePath" jhiTranslate="voipadminApp.deviceModel.firmwareFilePath"
-                  >Firmware File Path</label
+
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="voipadminApp.deviceModel.firmwareFile" for="field_firmwareFile"
+                >Firmware File</label
                 >
+                @if (editForm.get('firmwareFileName')?.value && !editForm.get('firmwareFile')?.value) {
+                  <a
+                      class="pull-left"
+                      (click)="downloadFirmwareFile()"
+                      >Open</a>
+                }
+                <div>
+                  <input
+                    type="file"
+                    id="file_firmwareFile"
+                    data-cy="firmwareFile"
+                    (change)="setFileData($event, 'firmwareFile', false)"
+                    jhiTranslate="entity.action.addblob"
+                  />
+                </div>
                 <input
-                  type="text"
+                  type="hidden"
                   class="form-control"
-                  name="firmwareFilePath"
-                  id="field_firmwareFilePath"
-                  data-cy="firmwareFilePath"
-                  formControlName="firmwareFilePath"
+                  name="firmwareFile"
+                  id="field_firmwareFile"
+                  data-cy="firmwareFile"
+                  formControlName="firmwareFile"
+                />
+                <input
+                  type="hidden"
+                  class="form-control"
+                  name="firmwareFileContentType"
+                  id="field_firmwareFileContentType"
+                  formControlName="firmwareFileContentType"
                 />
               </div>
               }
@@ -174,7 +218,7 @@
           </ng-template>
         </li>
       </ul>
-        
+
       <div [ngbNavOutlet]="nav"></div>
 
       <div>

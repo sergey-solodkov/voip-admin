@@ -2,6 +2,8 @@ import { Buffer } from 'buffer';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, Observer } from 'rxjs';
+import { saveAs } from 'file-saver';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 export type FileLoadErrorType = 'not.image' | 'could.not.extract';
 
@@ -47,6 +49,13 @@ export class DataUtils {
     };
   }
 
+  downloadFile(data: HttpResponse<string | Blob>): void {
+    if (data.body) {
+      const fileName = this.getFilename(data.headers);
+      saveAs(data.body, fileName);
+    }
+  }
+
   /**
    * Sets the base 64 data & file type of the 1st file on the event (event.target.files[0]) in the passed entity object
    * and returns an observable.
@@ -72,10 +81,12 @@ export class DataUtils {
           observer.error(error);
         } else {
           const fieldContentType = `${field}ContentType`;
+          const fieldName = `${field}Name`;
           this.toBase64(file, (base64Data: string) => {
             editForm.patchValue({
               [field]: base64Data,
               [fieldContentType]: file.type,
+              [fieldName]: file.name,
             });
             observer.next();
             observer.complete();
@@ -90,6 +101,17 @@ export class DataUtils {
         observer.error(error);
       }
     });
+  }
+
+  private getFilename(headers: HttpHeaders): string {
+    let filename = '';
+    const contentDisposition = headers.get('Content-Disposition');
+    if (contentDisposition) {
+      const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+      const matches = filenameRegex.exec(contentDisposition);
+      filename = matches?.[1]?.replace(/['"]/g, '') ?? '';
+    }
+    return filename;
   }
 
   /**

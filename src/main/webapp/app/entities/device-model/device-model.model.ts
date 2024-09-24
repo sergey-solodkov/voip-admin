@@ -8,8 +8,6 @@ export interface IDeviceModel {
   name?: string | null;
   configurable?: boolean | null;
   linesAmount?: number | null;
-  configTemplatePath?: string | null;
-  firmwareFilePath?: string | null;
   deviceType?: keyof typeof DeviceType | null;
   otherDeviceType?: Pick<IOtherDeviceType, 'id'> | null;
   vendor?: Pick<IVendor, 'id' | 'name'> | null;

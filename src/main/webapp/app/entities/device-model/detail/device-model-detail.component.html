@@ -27,14 +27,6 @@
           <dd>
             <span>{{ deviceModelRef.linesAmount }}</span>
           </dd>
-          <dt><span jhiTranslate="voipadminApp.deviceModel.configTemplatePath">Config Template Path</span></dt>
-          <dd>
-            <span>{{ deviceModelRef.configTemplatePath }}</span>
-          </dd>
-          <dt><span jhiTranslate="voipadminApp.deviceModel.firmwareFilePath">Firmware File Path</span></dt>
-          <dd>
-            <span>{{ deviceModelRef.firmwareFilePath }}</span>
-          </dd>
           <dt><span jhiTranslate="voipadminApp.deviceModel.deviceType">Device Type</span></dt>
           <dd>
             <span [jhiTranslate]="'voipadminApp.DeviceType.' + (deviceModelRef.deviceType ?? 'null')">{{

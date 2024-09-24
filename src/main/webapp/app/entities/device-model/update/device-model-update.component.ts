@@ -19,6 +19,9 @@ import { IDeviceModel } from '../device-model.model';
 import { DeviceModelFormGroup, DeviceModelFormService } from './device-model-form.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VendorChangeDialogComponent } from './vendor-change-dialog/vendor-change-dialog.component';
+import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
+import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
 
 @Component({
   standalone: true,
@@ -43,6 +46,8 @@ export class DeviceModelUpdateComponent implements OnInit {
   protected optionService = inject(OptionService);
   protected activatedRoute = inject(ActivatedRoute);
   protected modalService = inject(NgbModal);
+  protected dataUtils = inject(DataUtils);
+  protected eventManager = inject(EventManager);
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: DeviceModelFormGroup = this.deviceModelFormService.createDeviceModelFormGroup();
@@ -66,6 +71,25 @@ export class DeviceModelUpdateComponent implements OnInit {
     });
   }
 
+  downloadConfigTemplateFile(): void {
+    this.deviceModelService.getConfigTemplate(this.deviceModel!.id).subscribe((response: HttpResponse<Blob>) => {
+      this.dataUtils.downloadFile(response);
+    });
+  }
+
+  downloadFirmwareFile(): void {
+    this.deviceModelService.getFirmwareFile(this.deviceModel!.id).subscribe((response: HttpResponse<Blob>) => {
+      this.dataUtils.downloadFile(response);
+    });
+  }
+
+  setFileData(event: Event, field: string, isImage: boolean): void {
+    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
+      error: (err: FileLoadError) =>
+        this.eventManager.broadcast(new EventWithContent<AlertError>('voipadminApp.error', { ...err, key: 'error.file.' + err.key })),
+    });
+  }
+
   previousState(): void {
     window.history.back();
   }
@@ -74,7 +98,7 @@ export class DeviceModelUpdateComponent implements OnInit {
     this.isSaving = true;
     const deviceModel = this.deviceModelFormService.getDeviceModel(this.editForm);
     if (deviceModel.id !== null) {
-      this.subscribeToSaveResponse(this.deviceModelService.update(deviceModel));
+      this.subscribeToSaveResponse(this.deviceModelService.partialUpdate(deviceModel));
     } else {
       this.subscribeToSaveResponse(this.deviceModelService.create(deviceModel));
     }

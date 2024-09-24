@@ -1,7 +1,8 @@
 package com.github.sergeisolodkov.voipadmin.service.dto;
 
 import com.github.sergeisolodkov.voipadmin.domain.enumeration.DeviceType;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -23,9 +24,13 @@ public class DeviceModelDTO implements Serializable {
 
     private Integer linesAmount;
 
-    private String configTemplatePath;
+    private String configTemplateFile;
 
-    private String firmwareFilePath;
+    private String configTemplateFileName;
+
+    private String firmwareFile;
+
+    private String firmwareFileName;
 
     private DeviceType deviceType;
 
@@ -67,20 +72,36 @@ public class DeviceModelDTO implements Serializable {
         this.linesAmount = linesAmount;
     }
 
-    public String getConfigTemplatePath() {
-        return configTemplatePath;
+    public String getConfigTemplateFile() {
+        return configTemplateFile;
     }
 
-    public void setConfigTemplatePath(String configTemplatePath) {
-        this.configTemplatePath = configTemplatePath;
+    public void setConfigTemplateFile(String configTemplateFile) {
+        this.configTemplateFile = configTemplateFile;
     }
 
-    public String getFirmwareFilePath() {
-        return firmwareFilePath;
+    public String getConfigTemplateFileName() {
+        return configTemplateFileName;
     }
 
-    public void setFirmwareFilePath(String firmwareFilePath) {
-        this.firmwareFilePath = firmwareFilePath;
+    public void setConfigTemplateFileName(String configTemplateFileName) {
+        this.configTemplateFileName = configTemplateFileName;
+    }
+
+    public String getFirmwareFile() {
+        return firmwareFile;
+    }
+
+    public void setFirmwareFile(String firmwareFile) {
+        this.firmwareFile = firmwareFile;
+    }
+
+    public String getFirmwareFileName() {
+        return firmwareFileName;
+    }
+
+    public void setFirmwareFileName(String firmwareFileName) {
+        this.firmwareFileName = firmwareFileName;
     }
 
     public DeviceType getDeviceType() {
@@ -144,8 +165,8 @@ public class DeviceModelDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", configurable='" + getConfigurable() + "'" +
             ", linesAmount=" + getLinesAmount() +
-            ", configTemplatePath='" + getConfigTemplatePath() + "'" +
-            ", firmwareFilePath='" + getFirmwareFilePath() + "'" +
+            ", configTemplateFileName='" + getConfigTemplateFileName() + "'" +
+            ", firmwareFileName='" + getFirmwareFileName() + "'" +
             ", deviceType='" + getDeviceType() + "'" +
             ", otherDeviceType=" + getOtherDeviceType() +
             ", vendor=" + getVendor() +

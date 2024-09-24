@@ -28,12 +28,13 @@ public class MinioFileStorageImpl implements FileStorage {
     }
 
     @Override
-    public String upload(String bucket, InputStream data) {
+    public String upload(String bucket, String path, Resource data) {
         try {
             var args = PutObjectArgs
                 .builder()
                 .bucket(bucket)
-                .stream(data, data.available(), 0L)
+                .stream(data.getInputStream(), data.contentLength(), 0L)
+                .object(path)
                 .build();
             var response = minioClient.putObject(args);
 
@@ -53,7 +54,12 @@ public class MinioFileStorageImpl implements FileStorage {
                 .object(path)
                 .build()
         )) {
-            return new ByteArrayResource(file.readAllBytes());
+            return new ByteArrayResource(file.readAllBytes()) {
+                @Override
+                public String getFilename() {
+                    return Paths.get(path).getFileName().toString();
+                }
+            };
         } catch (Exception ex) {
             var message = String.format("Error while downloading file %s/%s", bucket, path);
             LOG.error(message);

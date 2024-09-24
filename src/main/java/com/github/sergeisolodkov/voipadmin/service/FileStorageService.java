@@ -8,22 +8,28 @@ import org.springframework.core.io.Resource;
 public interface FileStorageService {
 
     /**
-     * Upload device's config file.
-     * @return path to file.
+     * Upload device's config resource.
+     * @param path path to file within bucket.
+     * @param resource {@link Resource}
+     * @return path to resource.
      */
-    String uploadConfig();
+    String uploadConfig(String path, Resource resource);
 
     /**
-     * Upload device model's config template file.
-     * @return path to file.
+     * Upload device model's config template resource.
+     * @param path path to file within bucket.
+     * @param resource {@link Resource}
+     * @return path to resource.
      */
-    String uploadConfigTemplate();
+    String uploadConfigTemplate(String path, Resource resource);
 
     /**
-     * Upload device model's firmware file.
-     * @return path to file.
+     * Upload device model's firmware resource.
+     * @param path path to file within bucket.
+     * @param resource {@link Resource}
+     * @return path to resource.
      */
-    String uploadFirmwareFile();
+    String uploadFirmwareFile(String path, Resource resource);
 
     /**
      * Download device's config file.

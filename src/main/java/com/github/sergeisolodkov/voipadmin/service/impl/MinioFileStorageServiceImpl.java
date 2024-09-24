@@ -30,18 +30,30 @@ public class MinioFileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public String uploadConfig() {
-        return null;
+    public String uploadConfig(String path, Resource resource) {
+        return fileStorage.upload(
+            minioFileStorageProperties.getBuckets().get(CONFIG_FILES),
+            path,
+            resource
+        );
     }
 
     @Override
-    public String uploadConfigTemplate() {
-        return null;
+    public String uploadConfigTemplate(String path, Resource resource) {
+        return fileStorage.upload(
+            minioFileStorageProperties.getBuckets().get(CONFIG_TEMPLATE_FILES),
+            path,
+            resource
+        );
     }
 
     @Override
-    public String uploadFirmwareFile() {
-        return null;
+    public String uploadFirmwareFile(String path, Resource resource) {
+        return fileStorage.upload(
+            minioFileStorageProperties.getBuckets().get(FIRMWARE_FILES),
+            path,
+            resource
+        );
     }
 
     @Override

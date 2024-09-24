@@ -63,20 +63,6 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="configTemplatePath">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.deviceModel.configTemplatePath">Config Template Path</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="firmwareFilePath">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.deviceModel.firmwareFilePath">Firmware File Path</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
             <th scope="col" jhiSortBy="deviceType">
               <div class="d-flex">
                 <span jhiTranslate="voipadminApp.deviceModel.deviceType">Device Type</span>
@@ -108,8 +94,6 @@
               <td>{{ deviceModel.name }}</td>
               <td>{{ deviceModel.configurable }}</td>
               <td>{{ deviceModel.linesAmount }}</td>
-              <td>{{ deviceModel.configTemplatePath }}</td>
-              <td>{{ deviceModel.firmwareFilePath }}</td>
               <td [jhiTranslate]="'voipadminApp.DeviceType.' + (deviceModel.deviceType ?? 'null')">
                 {{
                   { null: '', IPPHONE: 'IPPHONE', IPGATEWAY: 'IPGATEWAY', HANDSET: 'HANDSET', HEADSET: 'HEADSET', OTHER: 'OTHER' }[

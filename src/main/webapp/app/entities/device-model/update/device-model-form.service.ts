@@ -21,8 +21,12 @@ type DeviceModelFormGroupContent = {
   name: FormControl<IDeviceModel['name']>;
   configurable: FormControl<IDeviceModel['configurable']>;
   linesAmount: FormControl<IDeviceModel['linesAmount']>;
-  configTemplatePath: FormControl<IDeviceModel['configTemplatePath']>;
-  firmwareFilePath: FormControl<IDeviceModel['firmwareFilePath']>;
+  configTemplateFile: FormControl<Blob>;
+  configTemplateFileContentType: FormControl<string>;
+  configTemplateFileName: FormControl<string>;
+  firmwareFile: FormControl<Blob>;
+  firmwareFileContentType: FormControl<string>;
+  firmwareFileName: FormControl<string>;
   deviceType: FormControl<IDeviceModel['deviceType']>;
   otherDeviceType: FormControl<IDeviceModel['otherDeviceType']>;
   vendor: FormControl<IDeviceModel['vendor']>;
@@ -53,8 +57,12 @@ export class DeviceModelFormService {
         validators: [Validators.required],
       }),
       linesAmount: new FormControl(deviceModelRawValue.linesAmount),
-      configTemplatePath: new FormControl(deviceModelRawValue.configTemplatePath),
-      firmwareFilePath: new FormControl(deviceModelRawValue.firmwareFilePath),
+      configTemplateFile: new FormControl(),
+      configTemplateFileContentType: new FormControl(),
+      configTemplateFileName: new FormControl(),
+      firmwareFile: new FormControl(),
+      firmwareFileContentType: new FormControl(),
+      firmwareFileName: new FormControl(),
       deviceType: new FormControl(deviceModelRawValue.deviceType),
       otherDeviceType: new FormControl(deviceModelRawValue.otherDeviceType),
       vendor: new FormControl(deviceModelRawValue.vendor),

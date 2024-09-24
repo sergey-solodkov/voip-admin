@@ -48,6 +48,14 @@ export class DeviceModelService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  getConfigTemplate(id: number): Observable<HttpResponse<Blob>> {
+    return this.http.get(`${this.resourceUrl}/${id}/config-template`, { observe: 'response', responseType: 'blob' });
+  }
+
+  getFirmwareFile(id: number): Observable<HttpResponse<Blob>> {
+    return this.http.get(`${this.resourceUrl}/${id}/firmware-file`, { observe: 'response', responseType: 'blob' });
+  }
+
   getDeviceModelIdentifier(deviceModel: Pick<IDeviceModel, 'id'>): number {
     return deviceModel.id;
   }
