@@ -229,3 +229,13 @@ file:
       config-template-files: config-template
       config-files: config
       firmware-files: firmware
+
+db-queue:
+  table-name: queue_tasks
+  queues:
+    - queue-id: device-config-creation
+      thread-count: 1
+#    - queue-id: device-config-storing
+#      thread-count: 1
+  # seconds
+  retry-interval: 30

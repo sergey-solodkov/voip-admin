@@ -119,6 +119,10 @@ configurations {
 dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    implementation "ru.yoomoney.tech:db-queue:${dbQueueVersion}"
+    implementation "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testImplementation("com.tngtech.archunit:archunit-junit5-api:${archunitJunit5Version}") {
         exclude group: "org.slf4j", module: "slf4j-api"
     }

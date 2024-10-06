@@ -1,41 +1,43 @@
 package com.github.sergeisolodkov.voipadmin.service.impl;
 
 import com.github.sergeisolodkov.voipadmin.domain.Device;
+import com.github.sergeisolodkov.voipadmin.domain.enumeration.ProvisioningMode;
+import com.github.sergeisolodkov.voipadmin.queue.producer.QueueProducerFactory;
 import com.github.sergeisolodkov.voipadmin.repository.DeviceRepository;
 import com.github.sergeisolodkov.voipadmin.service.DeviceService;
 import com.github.sergeisolodkov.voipadmin.service.dto.DeviceDTO;
 import com.github.sergeisolodkov.voipadmin.service.mapper.DeviceMapper;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.yoomoney.tech.dbqueue.api.EnqueueParams;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link com.github.sergeisolodkov.voipadmin.domain.Device}.
  */
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class DeviceServiceImpl implements DeviceService {
 
     private static final Logger LOG = LoggerFactory.getLogger(DeviceServiceImpl.class);
 
     private final DeviceRepository deviceRepository;
-
     private final DeviceMapper deviceMapper;
-
-    public DeviceServiceImpl(DeviceRepository deviceRepository, DeviceMapper deviceMapper) {
-        this.deviceRepository = deviceRepository;
-        this.deviceMapper = deviceMapper;
-    }
+    private final QueueProducerFactory queueProducerFactory;
 
     @Override
     public DeviceDTO save(DeviceDTO deviceDTO) {
         LOG.debug("Request to save Device : {}", deviceDTO);
         Device device = deviceMapper.toEntity(deviceDTO);
         device = deviceRepository.save(device);
+        enqueueConfigurationProcess(device);
         return deviceMapper.toDto(device);
     }
 
@@ -44,6 +46,7 @@ public class DeviceServiceImpl implements DeviceService {
         LOG.debug("Request to update Device : {}", deviceDTO);
         Device device = deviceMapper.toEntity(deviceDTO);
         device = deviceRepository.save(device);
+        enqueueConfigurationProcess(device);
         return deviceMapper.toDto(device);
     }
 
@@ -51,15 +54,18 @@ public class DeviceServiceImpl implements DeviceService {
     public Optional<DeviceDTO> partialUpdate(DeviceDTO deviceDTO) {
         LOG.debug("Request to partially update Device : {}", deviceDTO);
 
-        return deviceRepository
+        var deviceOpt = deviceRepository
             .findById(deviceDTO.getId())
             .map(existingDevice -> {
                 deviceMapper.partialUpdate(existingDevice, deviceDTO);
 
                 return existingDevice;
             })
-            .map(deviceRepository::save)
-            .map(deviceMapper::toDto);
+            .map(deviceRepository::save);
+
+        deviceOpt.ifPresent(this::enqueueConfigurationProcess);
+
+        return deviceOpt.map(deviceMapper::toDto);
     }
 
     @Override
@@ -84,5 +90,22 @@ public class DeviceServiceImpl implements DeviceService {
     public void delete(Long id) {
         LOG.debug("Request to delete Device : {}", id);
         deviceRepository.deleteById(id);
+    }
+
+    /**
+     * Asynchronously invoke configuration processing.
+     * @param device device to be configured.
+     */
+    private void enqueueConfigurationProcess(Device device) {
+        if (!device.getModel().getConfigurable()) {
+            return;
+        }
+
+        var buildConfigProducer = queueProducerFactory.getBuildDeviceConfigQueueProducer();
+        buildConfigProducer.enqueue(EnqueueParams.create(device.getId().toString()));
+
+        if (ProvisioningMode.FILE_TRANSFER_PROTOCOLS.contains(device.getProvisioningMode())) {
+            // TODO enqueue store task with some lag
+        }
     }
 }

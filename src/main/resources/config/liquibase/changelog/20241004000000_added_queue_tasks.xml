@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+  <!--
+      Added the queue_tasks table for db-queue lib.
+  -->
+  <changeSet id="20241004000000-1" author="ssolodkov">
+    <sql>
+      CREATE TABLE queue_tasks (
+      id                BIGSERIAL PRIMARY KEY,
+      queue_name        TEXT NOT NULL,
+      payload           TEXT,
+      created_at        TIMESTAMP WITH TIME ZONE DEFAULT now(),
+      next_process_at   TIMESTAMP WITH TIME ZONE DEFAULT now(),
+      attempt           INTEGER                  DEFAULT 0,
+      reenqueue_attempt INTEGER                  DEFAULT 0,
+      total_attempt     INTEGER                  DEFAULT 0
+      );
+      CREATE INDEX queue_tasks_name_time_desc_idx
+      ON queue_tasks USING btree (queue_name, next_process_at, id DESC);
+    </sql>
+  </changeSet>
+</databaseChangeLog>
