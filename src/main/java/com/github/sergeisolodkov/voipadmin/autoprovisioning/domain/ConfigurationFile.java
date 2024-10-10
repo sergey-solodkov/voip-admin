@@ -7,8 +7,6 @@ import lombok.Builder;
 @AllArgsConstructor
 public class ConfigurationFile {
 
-    public static ConfigurationFile EMPTY = new ConfigurationFile(null, null);
-
     private String fileName;
 
     private byte[] fileContent;

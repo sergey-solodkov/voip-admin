@@ -1,39 +1,44 @@
 package com.github.sergeisolodkov.voipadmin.integration;
 
+import com.github.sergeisolodkov.voipadmin.integration.domain.StorageCatalog;
+import com.github.sergeisolodkov.voipadmin.integration.domain.StorageType;
 import org.springframework.core.io.Resource;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 /**
- * File storage adapter.
+ * Service to deal with file storage.
  */
 public interface FileStorage {
 
     /**
-     * Upload file to storage.
-     * @param bucket bucket path.
-     * @param path path to file within bucket.
-     * @param data file.
-     * @return path to file in bucket.
+     * Upload in storage.
+     * @param type storage type.
+     * @param catalog catalog type.
+     * @param path path to file within catalog.
+     * @param resource file resource.
+     * @return full path to file.
+     * @throws IOException in case of I/O problems.
      */
-    String upload(String bucket, String path, Resource data);
+    String upload(StorageType type, StorageCatalog catalog, Path path, Resource resource) throws IOException;
 
     /**
      * Download file from storage.
-     * @param bucket bucket name.
-     * @param path path to file within bucket.
-     * @return {@link Resource}
+     * @param type storage type.
+     * @param catalog catalog type.
+     * @param path path to file within catalog.
+     * @return file resource.
+     * @throws IOException in case of I/O problems.
      */
-    Resource download(String bucket, String path);
+    Resource download(StorageType type, StorageCatalog catalog, Path path) throws IOException;
 
     /**
-     * Delete file.
-     * @param bucket bucket name.
-     * @param path path to file in bucket.
+     * Remove file from storage.
+     * @param type storage type.
+     * @param catalog catalog type.
+     * @param path path to file within catalog.
+     * @throws IOException in case of I/O problems.
      */
-    void delete(String bucket, String path);
-
-    /**
-     * Create bucket if not exists.
-     * @param name bucket name.
-     */
-    void makeBucket(String name);
+    void delete(StorageType type, StorageCatalog catalog, Path path) throws IOException;
 }

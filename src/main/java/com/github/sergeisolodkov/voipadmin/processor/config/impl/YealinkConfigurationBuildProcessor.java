@@ -3,10 +3,11 @@ package com.github.sergeisolodkov.voipadmin.processor.config.impl;
 import com.github.sergeisolodkov.voipadmin.autoprovisioning.domain.ConfigurationFile;
 import com.github.sergeisolodkov.voipadmin.domain.Device;
 import com.github.sergeisolodkov.voipadmin.domain.enumeration.OptionValueType;
+import com.github.sergeisolodkov.voipadmin.integration.domain.StorageType;
 import com.github.sergeisolodkov.voipadmin.processor.attr.PlainTextConfigAttrBuilder;
 import com.github.sergeisolodkov.voipadmin.processor.config.ConfigurationBuildProcessor;
 import com.github.sergeisolodkov.voipadmin.processor.domain.FileExtension;
-import com.github.sergeisolodkov.voipadmin.service.FileStorageService;
+import com.github.sergeisolodkov.voipadmin.integration.FileStorage;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.Resource;
@@ -14,9 +15,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Optional;
 
+import static com.github.sergeisolodkov.voipadmin.integration.domain.StorageCatalog.CONFIG_TEMPLATE;
 import static java.util.Objects.nonNull;
 
 @Component("yealink")
@@ -27,16 +30,16 @@ public class YealinkConfigurationBuildProcessor implements ConfigurationBuildPro
     private static final String SECTION_TITLE_TEMPLATE = "##{0}{1}{2}##";
     private static final int SECTION_TITLE_LINE_LENGTH = 83;
 
-    private final FileStorageService fileStorageService;
+    private final FileStorage fileStorage;
 
     @Override
     public ConfigurationFile process(Device device) throws IOException {
-        var configTemplatePathOpt = Optional.ofNullable(device.getModel().getConfigTemplatePath());
-        if (configTemplatePathOpt.isEmpty()) {
-            return ConfigurationFile.EMPTY;
-        }
+        var configTemplatePath = Optional
+            .ofNullable(device.getModel().getConfigTemplatePath())
+            .orElseThrow(() -> new IllegalArgumentException("Device model has no configuration template"));
 
-        var configTemplate = fileStorageService.downloadConfigTemplate(configTemplatePathOpt.get());
+        var path = Path.of(configTemplatePath);
+        var configTemplate = fileStorage.download(StorageType.S3, CONFIG_TEMPLATE, path);
 
         var fileName = buildFileName(device, FileExtension.CFG);
         var content = buildContent(configTemplate, device);

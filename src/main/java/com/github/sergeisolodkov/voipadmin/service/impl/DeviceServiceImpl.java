@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yoomoney.tech.dbqueue.api.EnqueueParams;
 
+import java.time.Duration;
 import java.util.Optional;
 
 /**
@@ -105,7 +106,11 @@ public class DeviceServiceImpl implements DeviceService {
         buildConfigProducer.enqueue(EnqueueParams.create(device.getId().toString()));
 
         if (ProvisioningMode.FILE_TRANSFER_PROTOCOLS.contains(device.getProvisioningMode())) {
-            // TODO enqueue store task with some lag
+           var storeConfigProducer = queueProducerFactory.getStoreDeviceConfigQueueProducer();
+           var params = EnqueueParams
+               .create(device.getId().toString())
+               .withExecutionDelay(Duration.ofSeconds(5));
+           storeConfigProducer.enqueue(params);
         }
     }
 }

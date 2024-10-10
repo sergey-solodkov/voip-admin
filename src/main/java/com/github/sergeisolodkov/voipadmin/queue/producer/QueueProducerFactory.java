@@ -18,4 +18,8 @@ public class QueueProducerFactory {
     public ShardingQueueProducer<String, SpringDatabaseAccessLayer> getBuildDeviceConfigQueueProducer() {
         return shardingQueueProducers.get(new QueueId("device-config-creation"));
     }
+
+    public ShardingQueueProducer<String, SpringDatabaseAccessLayer> getStoreDeviceConfigQueueProducer() {
+        return shardingQueueProducers.get(new QueueId("device-config-storing"));
+    }
 }

@@ -2,6 +2,7 @@ package com.github.sergeisolodkov.voipadmin.config;
 
 import com.github.sergeisolodkov.voipadmin.config.properties.DbQueueProperties;
 import com.github.sergeisolodkov.voipadmin.queue.consumer.DeviceConfigCreationTaskConsumer;
+import com.github.sergeisolodkov.voipadmin.queue.consumer.DeviceConfigStoringTaskConsumer;
 import com.github.sergeisolodkov.voipadmin.queue.producer.QueueProducerFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -113,7 +114,8 @@ public class DbQueueConfig {
             consumerClass = switch (id.asString()) {
                 case "device-config-creation":
                     yield DeviceConfigCreationTaskConsumer.class;
-//                case "device-config-storing":
+                case "device-config-storing":
+                    yield DeviceConfigStoringTaskConsumer.class;
                 default:
                     throw new IllegalArgumentException("Queue consumer not found");
             };
