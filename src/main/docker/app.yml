@@ -9,6 +9,9 @@ services:
       - MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED=true
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/voipadmin
       - SPRING_LIQUIBASE_URL=jdbc:postgresql://postgresql:5432/voipadmin
+      - MINIO_URL=http://minio:9000
+      - MINIO_ACCESS_KEY=minio
+      - MINIO_SECRET_KEY=minio123
     ports:
       - 127.0.0.1:8080:8080
     healthcheck:
@@ -23,7 +26,13 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
+      minio:
+        condition: service_healthy
   postgresql:
     extends:
       file: ./postgresql.yml
       service: postgresql
+  minio:
+    extends:
+      file: ./minio.yml
+      service: minio
