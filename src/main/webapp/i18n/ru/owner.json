@@ -2,29 +2,29 @@
   "voipadminApp": {
     "owner": {
       "home": {
-        "title": "Owners",
+        "title": "Владельцы",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Owner",
-        "createOrEditLabel": "Создать или отредактировать Owner",
-        "notFound": "Owners не найдено"
+        "createLabel": "Создать нового владельца",
+        "createOrEditLabel": "Создать или отредактировать владельца",
+        "notFound": "Владелкец не найден"
       },
-      "created": "Новый Owner создан с идентификатором {{ param }}",
-      "updated": "Owner обновлен с идентификатором {{ param }}",
-      "deleted": "Owner удален с идентификатором {{ param }}",
+      "created": "Новый владелец создан с идентификатором {{ param }}",
+      "updated": "Владелец обновлен с идентификатором {{ param }}",
+      "deleted": "Владелец удален с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Owner {{ id }}?"
+        "question": "Вы уверены что хотите удалить владельца {{ id }}?"
       },
       "detail": {
-        "title": "Owner"
+        "title": "Владелец"
       },
       "id": "ID",
-      "code": "Code",
-      "firstName": "First Name",
-      "secondName": "Second Name",
-      "lastName": "Last Name",
-      "position": "Position",
-      "location": "Location",
-      "department": "Department"
+      "code": "Код",
+      "firstName": "Имя",
+      "secondName": "Отчество",
+      "lastName": "Фамилия",
+      "position": "Должность",
+      "location": "Расположение",
+      "department": "Подразделение"
     }
   }
 }

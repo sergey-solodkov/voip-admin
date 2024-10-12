@@ -2,31 +2,31 @@
   "voipadminApp": {
     "deviceModel": {
       "home": {
-        "title": "Device Models",
+        "title": "Модели устройств",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Device Model",
-        "createOrEditLabel": "Создать или отредактировать Device Model",
-        "notFound": "Device Models не найдено"
+        "createLabel": "Создать новую модель устройства",
+        "createOrEditLabel": "Создать или отредактировать модель устройства",
+        "notFound": "Модель устройства не найдено"
       },
-      "created": "Новый Device Model создан с идентификатором {{ param }}",
-      "updated": "Device Model обновлен с идентификатором {{ param }}",
-      "deleted": "Device Model удален с идентификатором {{ param }}",
+      "created": "Новая модель устройства создана с идентификатором {{ param }}",
+      "updated": "Модель устройства обновлена с идентификатором {{ param }}",
+      "deleted": "Модель устройства удалена с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Device Model {{ id }}?"
+        "question": "Вы уверены что хотите удалить модель устройства {{ id }}?"
       },
       "detail": {
-        "title": "Device Model"
+        "title": "Модель устройства"
       },
       "id": "ID",
-      "name": "Name",
-      "configurable": "Configurable",
-      "linesAmount": "Lines Amount",
-      "configTemplatePath": "Config Template Path",
-      "firmwareFilePath": "Firmware File Path",
-      "deviceType": "Device Type",
-      "otherDeviceType": "Other Device Type",
-      "vendor": "Vendor",
-      "options": "Options"
+      "name": "Наименование",
+      "configurable": "Конфигурируемая?",
+      "linesAmount": "Количество линий",
+      "configTemplatePath": "Путь до файла конфигурации",
+      "firmwareFilePath": "Путь до файла прошивки",
+      "deviceType": "Тип устройства",
+      "otherDeviceType": "Иной тип устройства",
+      "vendor": "Производитель",
+      "options": "Опции"
     }
   }
 }

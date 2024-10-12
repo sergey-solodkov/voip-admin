@@ -8,16 +8,16 @@
       "entities": {
         "main": "Сущности",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
-        "device": "Device",
-        "deviceModel": "Device Model",
-        "otherDeviceType": "Other Device Type",
-        "owner": "Owner",
-        "department": "Department",
-        "voipAccount": "Voip Account",
-        "setting": "Setting",
-        "option": "Option",
-        "optionValue": "Option Value",
-        "vendor": "Vendor"
+        "device": "Устройства",
+        "deviceModel": "Модели устройств",
+        "otherDeviceType": "Иные типы устройств",
+        "owner": "Владельцы",
+        "department": "Подразделения",
+        "voipAccount": "VoIP-аккаунты",
+        "setting": "Настройки",
+        "option": "Опции",
+        "optionValue": "Значения для опций",
+        "vendor": "Производители"
       },
       "account": {
         "main": "Профиль",

@@ -2,30 +2,30 @@
   "voipadminApp": {
     "voipAccount": {
       "home": {
-        "title": "Voip Accounts",
+        "title": "VoIP-аккаунты",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Voip Account",
-        "createOrEditLabel": "Создать или отредактировать Voip Account",
-        "notFound": "Voip Accounts не найдено"
+        "createLabel": "Создать новый VoIP-аккаунт",
+        "createOrEditLabel": "Создать или отредактировать VoIP-аккаунт",
+        "notFound": "VoIP-аккаунт не найден"
       },
-      "created": "Новый Voip Account создан с идентификатором {{ param }}",
-      "updated": "Voip Account обновлен с идентификатором {{ param }}",
-      "deleted": "Voip Account удален с идентификатором {{ param }}",
+      "created": "Новый VoIP-аккаунт создан с идентификатором {{ param }}",
+      "updated": "VoIP-аккаунт обновлен с идентификатором {{ param }}",
+      "deleted": "VoIP-аккаунт удален с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Voip Account {{ id }}?"
+        "question": "Вы уверены что хотите удалить VoIP-аккаунт {{ id }}?"
       },
       "detail": {
-        "title": "Voip Account"
+        "title": "VoIP-аккаунт"
       },
       "id": "ID",
-      "manual": "Manual",
-      "username": "Username",
-      "passwordHash": "Password Hash",
-      "sipServer": "Sip Server",
-      "sipPort": "Sip Port",
-      "lineEnable": "Line Enable",
-      "lineNumber": "Line Number",
-      "device": "Device"
+      "manual": "Ручная настройка",
+      "username": "Имя пользователя",
+      "passwordHash": "Пароль (хэш)",
+      "sipServer": "SIP-сервер",
+      "sipPort": "SIP-порт",
+      "lineEnable": "Линия активна",
+      "lineNumber": "№ линии",
+      "device": "Устройство"
     }
   }
 }
