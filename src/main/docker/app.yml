@@ -12,6 +12,8 @@ services:
       - MINIO_URL=http://minio:9000
       - MINIO_ACCESS_KEY=minio
       - MINIO_SECRET_KEY=minio123
+      - TFTP_ENABLED=true
+      - TFTP_URL=tftp
     ports:
       - 127.0.0.1:8080:8080
     healthcheck:
@@ -36,3 +38,7 @@ services:
     extends:
       file: ./minio.yml
       service: minio
+  tftp:
+    extends:
+      file: ./tftp.yml
+      service: tftp

@@ -3,9 +3,10 @@ name: voipadmin
 services:
   postgresql:
     image: postgres:16.4
-    # volumes:
-    #   - ~/volumes/jhipster/voipadmin/postgresql/:/var/lib/postgresql/data/
+    volumes:
+      - .data/postgres:/var/lib/postgresql/data/
     environment:
+      - POSTGRES_DB=voipadmin
       - POSTGRES_USER=voipadmin
       - POSTGRES_PASSWORD=
       - POSTGRES_HOST_AUTH_METHOD=trust

@@ -8,12 +8,13 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 
-@ConfigurationProperties(prefix = "file.local")
+@ConfigurationProperties(prefix = "file.tftp")
 @Configuration
 @Getter
 @Setter
-public class LocalFileStorageProperties {
-    private String location;
+public class TFTPFileStorageProperties {
+    private boolean enabled;
+    private String url;
+    private int port;
     private Map<StorageCatalog, String> dirs;
-
 }

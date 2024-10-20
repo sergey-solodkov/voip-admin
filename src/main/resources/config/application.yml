@@ -229,12 +229,19 @@ file:
       config-template: ${MINIO_CONFIG_TEMPLATE_FILES_CATALOG:config-template}
       config: ${MINIO_CONFIG_FILES_CATALOG:config}
       firmware: ${MINIO_FIRMWARE_FILES_CATALOG:firmware}
-  local:
-    location: ${LOCAL_FILE_STORAGE_LOCATION:/tmp/voip-admin/}
+  ftp:
+    enabled: ${FTP_ENABLED:false}
+    url: ${FTP_URL:localhost}
     dirs:
-      config: ${LOCAL_STORAGE_CONFIG_FILES_CATALOG:config}
-      firmware: ${LOCAL_STORAGE_FIRMWARE_FILES_CATALOG:firmware}
-  remote: # TODO
+      config: ${FTP_CONFIG_FILES_CATALOG:config}
+      firmware: ${FTP_FIRMWARE_FILES_CATALOG:firmware}
+  tftp:
+    enabled: ${TFTP_ENABLED:false}
+    url: ${TFTP_URL:localhost}
+    port: ${TFTP_PORT:69}
+    dirs:
+      config: ${TFTP_CONFIG_FILES_CATALOG:config}
+      firmware: ${TFTP_FIRMWARE_FILES_CATALOG:firmware}
 
 
 db-queue:

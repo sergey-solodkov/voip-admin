@@ -9,3 +9,7 @@ services:
     extends:
       file: ./minio.yml
       service: minio
+  tftp:
+    extends:
+      file: ./tftp.yml
+      service: tftp

@@ -1,0 +1,21 @@
+name: voipadmin
+services:
+  tftp:
+    container_name: voip-admin-tftp
+    image: 3x3cut0r/tftpd-hpa
+    network_mode: "host"
+    restart: always
+    environment:
+      CREATE: 1
+      VERBOSE: 3
+      VERBOSITY: 4
+    entrypoint: './docker-entrypoint.sh && chmod 766 -R /tftpboot'
+    volumes:
+      - /var/tftpboot:/tftpboot # TODO ENV
+    ports:
+      - "69:69/udp"
+    healthcheck:
+      test: [ "CMD", "mc", "ready", "local" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3

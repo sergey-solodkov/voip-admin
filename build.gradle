@@ -132,6 +132,7 @@ dependencies {
     implementation "io.micrometer:micrometer-registry-prometheus-simpleclient"
     implementation "jakarta.annotation:jakarta.annotation-api"
     implementation "org.apache.commons:commons-lang3"
+    implementation "commons-net:commons-net:${commonsNetVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
