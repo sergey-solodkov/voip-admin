@@ -3,7 +3,8 @@ services:
   tftp:
     container_name: voip-admin-tftp
     image: 3x3cut0r/tftpd-hpa
-    network_mode: "host"
+    # Uncomment if you want to run voipadmin on host machine (not inside the container)
+    #network_mode: "host"
     restart: always
     environment:
       CREATE: 1
@@ -13,9 +14,9 @@ services:
     volumes:
       - /var/tftpboot:/tftpboot # TODO ENV
     ports:
-      - "69:69/udp"
+      - '69:69/udp'
     healthcheck:
-      test: [ "CMD", "mc", "ready", "local" ]
+      test: ['CMD', 'mc', 'ready', 'local']
       interval: 30s
       timeout: 20s
       retries: 3
