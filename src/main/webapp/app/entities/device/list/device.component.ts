@@ -15,6 +15,7 @@ import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigati
 import { IDevice } from '../device.model';
 import { DeviceService, EntityArrayResponseType } from '../service/device.service';
 import { DeviceDeleteDialogComponent } from '../delete/device-delete-dialog.component';
+import { YesNoPipe } from 'app/shared/format';
 
 @Component({
   standalone: true,
@@ -30,6 +31,7 @@ import { DeviceDeleteDialogComponent } from '../delete/device-delete-dialog.comp
     FormatMediumDatetimePipe,
     FormatMediumDatePipe,
     ItemCountComponent,
+    YesNoPipe,
   ],
 })
 export class DeviceComponent implements OnInit {

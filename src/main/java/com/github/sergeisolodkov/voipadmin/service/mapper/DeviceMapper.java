@@ -14,6 +14,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {VoipAccountMapper.class, DeviceModelMapper.class, SettingMapper.class})
 public interface DeviceMapper extends EntityMapper<DeviceDTO, Device> {
     @Mapping(target = "owner", source = "owner", qualifiedByName = "ownerLastName")
+    @Mapping(target = "mac", source = "mac", qualifiedByName = "formatMac")
     DeviceDTO toDto(Device s);
 
     @Named("deviceId")
@@ -32,4 +33,26 @@ public interface DeviceMapper extends EntityMapper<DeviceDTO, Device> {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "lastName", source = "lastName")
     OwnerDTO toDtoOwnerLastName(Owner owner);
+
+    @Mapping(source = "mac", target = "mac", qualifiedByName = "flatMac")
+    Device toEntity(DeviceDTO dto);
+
+    @Named("formatMac")
+    static String formatMac(String flatMac) {
+        if (flatMac.length() != 12) {
+            return flatMac;
+        }
+        String[] octets = flatMac.split("(?<=\\G..)");
+        return String
+            .join(":", octets)
+            .toUpperCase();
+    }
+
+    @Named("flatMac")
+    static String flatMac(String formattedMac) {
+        return formattedMac
+            .replace(":", "")
+            .replace("-", "")
+            .toLowerCase();
+    }
 }

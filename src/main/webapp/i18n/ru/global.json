@@ -95,7 +95,11 @@
     "ribbon": {
       "dev": "Разработка"
     },
-    "item-count": "Показываем {{first}} - {{second}} из {{total}}."
+    "item-count": "Показываем {{first}} - {{second}} из {{total}}.",
+    "value": {
+      "yes": "Да",
+      "no": "Нет"
+    }
   },
   "entity": {
     "action": {

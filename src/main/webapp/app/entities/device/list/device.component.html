@@ -35,13 +35,6 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
-            <th scope="col" jhiSortBy="id">
-              <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
             <th scope="col" jhiSortBy="mac">
               <div class="d-flex">
                 <span jhiTranslate="voipadminApp.device.mac">Mac</span>
@@ -63,27 +56,6 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="hostname">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.device.hostname">Hostname</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="webAccessLogin">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.device.webAccessLogin">Web Access Login</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="webAccessPasswordHash">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.device.webAccessPasswordHash">Web Access Password Hash</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
             <th scope="col" jhiSortBy="dhcpEnabled">
               <div class="d-flex">
                 <span jhiTranslate="voipadminApp.device.dhcpEnabled">Dhcp Enabled</span>
@@ -98,65 +70,9 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="subnetMask">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.device.subnetMask">Subnet Mask</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="defaultGw">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.device.defaultGw">Default Gw</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="dns1">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.device.dns1">Dns 1</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="dns2">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.device.dns2">Dns 2</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
             <th scope="col" jhiSortBy="provisioningMode">
               <div class="d-flex">
                 <span jhiTranslate="voipadminApp.device.provisioningMode">Provisioning Mode</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="provisioningUrl">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.device.provisioningUrl">Provisioning Url</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="ntp">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.device.ntp">Ntp</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="configPath">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.device.configPath">Config Path</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="notes">
-              <div class="d-flex">
-                <span jhiTranslate="voipadminApp.device.notes">Notes</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -185,28 +101,14 @@
         <tbody>
           @for (device of devices; track trackId) {
             <tr data-cy="entityTable">
-              <td>
-                <a [routerLink]="['/device', device.id, 'view']">{{ device.id }}</a>
-              </td>
               <td>{{ device.mac }}</td>
               <td>{{ device.inventoryId }}</td>
               <td>{{ device.location }}</td>
-              <td>{{ device.hostname }}</td>
-              <td>{{ device.webAccessLogin }}</td>
-              <td>{{ device.webAccessPasswordHash }}</td>
-              <td>{{ device.dhcpEnabled }}</td>
+              <td>{{ device.dhcpEnabled | yesNo | translate }}</td>
               <td>{{ device.ipAddress }}</td>
-              <td>{{ device.subnetMask }}</td>
-              <td>{{ device.defaultGw }}</td>
-              <td>{{ device.dns1 }}</td>
-              <td>{{ device.dns2 }}</td>
               <td [jhiTranslate]="'voipadminApp.ProvisioningMode.' + (device.provisioningMode ?? 'null')">
                 {{ { null: '', FTP: 'FTP', TFTP: 'TFTP', HTTP: 'HTTP', HTTPS: 'HTTPS' }[device.provisioningMode ?? 'null'] }}
               </td>
-              <td>{{ device.provisioningUrl }}</td>
-              <td>{{ device.ntp }}</td>
-              <td>{{ device.configPath }}</td>
-              <td>{{ device.notes }}</td>
               <td>
                 @if (device.model) {
                   <div>
